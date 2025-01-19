@@ -1,0 +1,64 @@
+/* .navigation nav ul li {
+    display: block;
+} */
+.headerTitle {
+    /* background-color: rgb(146, 137, 137); */
+
+}
+
+.topnav {
+    overflow: hidden;
+    /* background-color: #333; */
+    background-color: #253d95;
+    align-self: left;
+    padding-right: 1px;
+}
+
+.navButton {
+    float: left;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 10px 12px;
+    text-decoration: none;
+    font-size: 16px;
+    border-bottom: 5px solid #253d95;
+}
+
+.topnav a:hover {
+    /* background-color: #ddd; */
+    background-color: #447ed5;
+    color: black;
+    border-bottom: 5px solid #447ed5;  
+}
+
+.navButtonActive {
+    /* background-color: #0ad9a99e; */
+    background-color: #447ed5;
+    color: white;
+    float: left;
+    box-sizing: border-box;
+    border-bottom: 5px solid #bdbcbc;  
+    text-align: center;
+    padding: 10px 12px;
+    text-decoration: none;
+    font-size: 16px;
+}
+.navWrap {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background-color: #bdbcbc;
+     /* background-color: #aec0db; */
+    justify-content: space-between;
+    padding-right: 5%;
+}
+.logOut {
+    background-image: url('../../images/logout.png');
+    width: 20px;
+    height: 25px;
+    /* top:50px; */
+  }
+  .logOut:hover {
+    cursor: pointer;
+    background-color: #ddd;
+  }

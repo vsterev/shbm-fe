@@ -1,0 +1,25 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    width: 100%;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.pageContainer {
+    min-height: calc(100vh - 30px);
+    box-sizing: border-box;
+
+}
+
+.footer {
+    height: 20px;
+    width: 100%;
+    background-color: #bdbcbc;
+    text-align: center;
+    padding-top: 5px;
+    padding-bottom: 5px;
+
+}

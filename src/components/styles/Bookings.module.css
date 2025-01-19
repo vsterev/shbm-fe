@@ -1,0 +1,46 @@
+.bookingWrap {
+    margin: 10px 20px;
+}
+
+.bookingWrap>div {
+    margin: 10px 0;
+}
+
+.toggleButton {
+
+    background-color: white;
+    border: solid;
+    border-width: 1px;
+    border-radius: 3px;
+    border-color: rgb(27, 100, 209);
+    color: rgb(27, 100, 209);
+    padding: 3px 5px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 13px;
+    margin: 5px 10px 5px 0;
+
+}
+.toggleButton:hover { 
+    cursor: pointer;
+}
+.submitButton {
+    background-color: rgb(27, 100, 209);
+    border: none;
+    border-radius: 3px;
+    color: white;
+    padding: 5px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 15px;
+    margin: 5px 10px 5px 0;
+}
+.submitButton:hover { 
+    cursor: pointer;
+}
+.submitButton:disabled { 
+    cursor: inherit;
+    background-color:  rgb(174, 192, 219);
+}

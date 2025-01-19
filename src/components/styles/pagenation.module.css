@@ -1,0 +1,10 @@
+.pagenation {
+    margin: auto;
+    width: 30%;
+    padding: 10px;
+}
+.pagenation span,
+.pagenation div {
+    display: flex;
+    justify-content: center;
+}
