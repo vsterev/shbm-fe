@@ -1,50 +1,75 @@
-# React + TypeScript + Vite
+# 🏨 Solvex Hotel Booking Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is the frontend application for the **Solvex Hotel Booking Manager**, built with [React](https://reactjs.org/) and [Vite](https://vitejs.dev/). It provides a interface for hotel booking operations, including real-time data synchronization, reservation management, and seamless integration with the backend services.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Features
 
-## Expanding the ESLint configuration
+- 📦 Modern build system with Vite
+- 🌐 API integration with backend for booking data
+- 🔐 Authentication (Passport / JWT integration)
+- 📝 Code linting and formatting via ESLint + Prettier
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+---
 
-- Configure the top-level `parserOptions` property like this:
+## 🛠️ Tech Stack
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+- **Framework:** React (with Hooks)
+- **Tooling:** Vite
+- **Routing:** React Router v6+
+- **Auth:** JWT tokens (via backend)
+- **CI/CD:** GitHub Actions (optional)
+- **Deployment:** PM2+
+
+---
+
+## ✅ Prerequisites
+
+Ensure you have the following installed:
+
+- [Node.js](https://nodejs.org/) >= 18.x
+- [Yarn](https://yarnpkg.com/) >= 1.22
+- Git CLI
+
+---
+
+## 📦 Getting Started
+
+Clone the repository:
+
+```bash
+git clone git@github.com:your-org/hotel-booking-frontend.git
+cd hotel-booking-frontend
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+Install dependencies:
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+```bash
+yarn install
+```
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+Setup PM2:
+
+```bash
+pm2 deploy production setup
+```
+
+##📜 Scripts ##
+Start the dev server:
+
+```bash
+yarn dev
+```
+
+Build for production
+
+```bash
+yarn build
+```
+
+PM2 deployment - run locally
+
+```bas
+pm2 deploy ecosystem.config.cjs production
 ```
