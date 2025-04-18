@@ -10,7 +10,7 @@ if (!fs.existsSync('.env')) {
 module.exports = {
 	apps: [
 		{
-			name: 'static_shbm_frontend_1',
+			name: 'shbm-fe',
 			script: 'serve',
 			env: {
 				PM2_SERVE_PATH: '/home/vsterev/git/shbm/static/static_shbm_frontend_1',
@@ -28,9 +28,9 @@ module.exports = {
 			path: '/home/vsterev/git/shbm/pm2/shbm-frontend',
 			repo: 'git@github.com:vsterev/shbm-fe.git',
 			'post-deploy': `yarn \
-		  && pm2 stop static_shbm_frontend_1 \
+		  && pm2 stop shbm-fe \
 		  && yarn build --outDir /home/vsterev/git/shbm/static/static_shbm_frontend_1 --mode production \
-		  && pm2 start pm2.config.cjs --only static_shbm_frontend_1`,
+		  && pm2 start pm2.config.cjs --only shbm-fe`,
 		},
 	},
 };
