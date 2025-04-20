@@ -85,6 +85,18 @@ export interface HotelServiceBooking {
 	note: string;
 	tourists: Tourist[];
 	priceRemark?: string;
+	log?: {
+		send: ParserBooking;
+		response: ParserBookingResponse;
+		manual: {
+			[key: string]: {
+				booking: string;
+				message: string;
+				confirmationNumber?: string;
+			}
+		};
+		sendDate?: Date;
+	};
 }
 export interface Flight {
 	flightArr: string;
@@ -102,12 +114,6 @@ export interface Booking {
 	marketId: number;
 	marketName: string;
 	messages: Message[];
-	log?: {
-		send: ParserBooking;
-		response: ParserBookingResponse;
-		manual: { [key: string]: { booking: string; message: string } };
-		sendDate?: Date;
-	};
 	hotelServices: HotelServiceBooking[];
 	flightInfo?: Flight;
 	dateInputed?: string;
