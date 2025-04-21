@@ -4,6 +4,7 @@ import {
 	Booking,
 	SearchBookingsParams,
 } from '../../interfaces/booking.interface';
+import SpannedRow from './SpannedRow';
 
 interface HistoryViewProps {
 	bookingsArr: Booking[];
@@ -57,27 +58,34 @@ const HistoryView = ({ bookingsArr, params }: HistoryViewProps) => {
 										<td>{i + 1 + params.skip}</td>
 										<td>{el.bookingName}</td>
 										<td>
-											{el.log?.sendDate?.toString().substring(0, 16).replace('T', ' ')}
+											{el.hotelServices[0].log?.sendDate?.toString().substring(0, 16).replace('T', ' ')}
 										</td>
 										<td>{el.action}</td>
 										<td>{el.hotelServices[0].hotel}</td>
-										<td>
-											{el.hotelServices[0].roomType}-
-											{el.hotelServices[0].roomCategory}
+										<td rowSpan={el.hotelServices.length}>
+											{/* {el.hotelServices.map(hts => <div>{hts.roomType + " - " + hts.roomCategory}</div>)} */}
+											<SpannedRow
+												hotelServices={el.hotelServices}
+												item="roomType"
+												subItem="roomCategory"
+											/>
 										</td>
 										<td>{el.hotelServices[0].checkIn?.substring(0, 10)}</td>
 										<td>{el.hotelServices[0].checkOut?.substring(0, 10)}</td>
-										<td>{el.hotelServices[0].roomAccommodation}</td>
-										<td>{el.log?.response?.ConfirmationNo}</td>
-										<td className={styles.bookingsName}>
-											{el.hotelServices[0].tourists.map((el, i: number) => {
-												return (
-													<div key={i}>
-														{el.sex}, {el.name},{' '}
-														{el.birthDate?.substring(0, 10)}
-													</div>
-												);
-											})}
+										<td rowSpan={el.hotelServices.length}>
+											<SpannedRow
+												hotelServices={el.hotelServices}
+												item="roomAccommodation"
+											/>
+										</td>
+										<td rowSpan={el.hotelServices.length}>
+											<SpannedRow hotelServices={el.hotelServices} item="confirmationNumber" />
+										</td>
+										<td className={styles.bookingsName} rowSpan={el.hotelServices.length}>
+											<SpannedRow
+												hotelServices={el.hotelServices}
+												item="tourists"
+											/>
 										</td>
 										<td>
 											{el.creationDate?.substring(0, 16).replace('T', ' ')}
@@ -86,36 +94,45 @@ const HistoryView = ({ bookingsArr, params }: HistoryViewProps) => {
 											<span>{toggleArr[i] === false ? 'view' : 'hide'}</span>
 										</td>
 									</tr>
+									<tr></tr>
 									{toggleArr[i] === true && (
 										<tr>
-											<td colSpan={13}>
-												{el?.log?.send?.Names &&
-													el.log.send.Names.length > 0 && (
-														<>
-															<div>
-																<h4>integration log:</h4>
-																<pre style={{ whiteSpace: 'pre-wrap', textAlign: 'left' }}>
-																	{JSON.stringify(el.log, null, 2)}
-																</pre>
-															</div>
-														</>
-													)}
-												{el?.log?.manual && (
+											<td colSpan={14} >
+												{el?.hotelServices.some((hts, index) => hts.log?.send) &&
 													<div>
 														<h4>integration log:</h4>
-														<pre style={{ whiteSpace: 'pre-wrap', textAlign: 'left' }}>
-															{JSON.stringify(el.log.manual, null, 2)}
-														</pre>
+														{el.hotelServices.map((hts, index) => {
+															return (
+																<div key={index} style={{ marginBottom: '10px' }}>
+																	<h5>Room {index + 1}:</h5>
+																	<pre
+																		style={{
+																			whiteSpace: 'pre-wrap',
+																			textAlign: 'left',
+																			// backgroundColor: '#f9f9f9',
+																			padding: '10px',
+																			borderRadius: '5px',
+																			// border: '1px solid #ddd',
+																		}}
+																	>
+																		{JSON.stringify(hts.log, null, 2)}
+																	</pre>
+																</div>
+															)
+														})
+														}
+
 													</div>
-												)}
+												}
 											</td>
 										</tr>
-									)}
+									)
+									}
 								</React.Fragment>
 							);
 						})}
 					</tbody>
-				</table>
+				</table >
 			) : (
 				<div style={{ textAlign: 'center' }}>please enter search criteria</div>
 			)}
