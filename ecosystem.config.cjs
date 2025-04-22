@@ -12,7 +12,7 @@ module.exports = {
 			script: 'serve',
 			env: {
 				PM2_SERVE_PATH: '/home/vsterev/git/shbm/static/static_shbm_frontend_1',
-				PM2_SERVE_PORT: 8080,
+				PM2_SERVE_PORT: 5173,
 				PM2_SERVE_SPA: 'true',
 				PM2_SERVE_HOMEPAGE: '/index.html',
 			},
