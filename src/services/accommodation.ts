@@ -32,7 +32,7 @@ const AccommodationService = {
       integrationCode: string;
     },
     token: string,
-  ): Promise<void> => {
+  ): Promise<{ error: string } | undefined> => {
     try {
       const response = await fetch(`${API_URL}/accommodations/`, {
         body: JSON.stringify(data),
