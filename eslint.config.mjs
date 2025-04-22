@@ -21,13 +21,14 @@ import eslintPluginReactHooks from 'eslint-plugin-react-hooks';
 import reactRefresh from 'eslint-plugin-react-refresh';
 import globals from 'globals';
 import tseslint from 'typescript-eslint';
+import { defineConfig, globalIgnores } from 'eslint/config';
 
 export default tseslint.config(
 	eslint.configs.recommended,
 	...tseslint.configs.recommended,
 	eslintPluginPrettierRecommended,
 	{
-		ignores: ['**/dist/*'],
+		ignores: ['**/dist/*, **/build/*'],
 	},
 	{
 		files: ['**/*.ts', '**/*.tsx'],
@@ -54,5 +55,6 @@ export default tseslint.config(
 			'@typescript-eslint/ban-ts-comment': 'off',
 			...eslintPluginReactHooks.configs.recommended.rules,
 		},
-	}
+	},
+	globalIgnores(['dist/', 'build/', '*.js', '*.cjs', '*.mjs'])
 );
