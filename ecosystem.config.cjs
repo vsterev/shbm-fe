@@ -1,10 +1,3 @@
-const fs = require('fs');
-
-if (!fs.existsSync('.env')) {
-	console.error('.env not found!');
-	process.exit(1);
-}
-
 module.exports = {
 	apps: [
 		{
