@@ -33,7 +33,7 @@ const HotelCreateVariant = ({
         ilCode: selectedHotelId,
         checkIn: dateFrom,
         checkOut: dateTo,
-        integrationCode: selectedIntegration.code,
+        integrationName: selectedIntegration.name,
       },
       token,
     ).finally(() => {

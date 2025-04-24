@@ -7,11 +7,12 @@ const API_URL = `${import.meta.env.VITE_BACKEND_API}`;
 
 const AccommodationService = {
   get: async (
-    data: { ilCode: number },
+    data: { ilCode: number; integrationName: string },
     token: string,
   ): Promise<AccommodationMapping | { error: string }> => {
     const searchParams = new URLSearchParams({
       ilCode: data.ilCode.toString(),
+      integrationName: data.integrationName,
     });
     const response = await fetch(`${API_URL}/accommodations?${searchParams}`, {
       method: "GET",
@@ -29,7 +30,7 @@ const AccommodationService = {
       ilCode: number;
       checkIn: string;
       checkOut: string;
-      integrationCode: string;
+      integrationName: string;
     },
     token: string,
   ): Promise<{ error: string } | undefined> => {
@@ -55,6 +56,7 @@ const AccommodationService = {
       boards: { [key: number]: Board };
       rooms: { [key: string]: Room };
       hotelId: number;
+      integrationName: string;
     },
     token: string,
   ): Promise<AccommodationMapping> => {
