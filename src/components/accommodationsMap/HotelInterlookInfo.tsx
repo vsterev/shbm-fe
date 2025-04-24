@@ -33,8 +33,14 @@ const HotelInfo = ({ selectedHotelId }: HotelInfoProps) => {
     if (!selectedHotelId) {
       return;
     }
+    if (!selectedIntegration) {
+      return;
+    }
     setAccommodationsMap({} as AccommodationMapping);
-    AccommodationService.get({ ilCode: selectedHotelId }, token)
+    AccommodationService.get(
+      { ilCode: selectedHotelId, integrationName: selectedIntegration.name },
+      token,
+    )
       .then((r) => {
         if ("error" in r) {
           return;
@@ -74,11 +80,17 @@ const HotelInfo = ({ selectedHotelId }: HotelInfoProps) => {
 
   const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (!selectedIntegration) {
+      return;
+    }
+
     await AccommodationService.edit(
       {
         hotelId: accommodationsMap._id,
         boards: accommodationsMap.boards,
         rooms: accommodationsMap.rooms,
+        integrationName: selectedIntegration.name,
       },
       token,
     )

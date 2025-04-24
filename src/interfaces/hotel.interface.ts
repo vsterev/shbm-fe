@@ -18,6 +18,7 @@ export interface AccommodationMapping {
   hotelCode?: string;
   cityId: number;
   cityName: string;
+  integrationName: string;
   boards: { [key: string]: Board };
   rooms: { [key: string]: Room };
 }
