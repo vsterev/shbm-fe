@@ -127,7 +127,7 @@ const GetBookings = () => {
       })
       .filter((el) => !!el);
 
-    await BookingService.send(sendArr, token, selectedIntegration.name)
+    await BookingService.send(sendArr, token, selectedIntegration.name, type)
       .then((rs) => {
         const { errors, sended, confirmed, cancelled } =
           rs as ResultSendBookings;

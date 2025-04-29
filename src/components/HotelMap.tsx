@@ -51,13 +51,20 @@ const HotelMap = () => {
   }, [selectedIntegration, refreshAfterMap]);
 
   const clickHandler = async (b: IntegratedHotelResponse) => {
+    if (!selectedIntegration?.name) {
+      return;
+    }
+
     setHotelProps([]);
     const hotelNameChecked = hotelNameCheck(b.hotelName);
     setStrSearchHotel(hotelNameChecked);
 
     try {
       const result = await HotelService.get(
-        { hotelName: hotelNameChecked.toLowerCase() },
+        {
+          hotelName: hotelNameChecked.toLowerCase(),
+          integrationName: selectedIntegration.name,
+        },
         token,
       );
       setHotelProps(result);
@@ -68,9 +75,15 @@ const HotelMap = () => {
 
   async function submitSearchHandler(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    if (!selectedIntegration?.name) {
+      return;
+    }
     try {
       const result = await HotelService.get(
-        { hotelName: strSearchHotel },
+        {
+          hotelName: strSearchHotel,
+          integrationName: selectedIntegration.name,
+        },
         token,
       );
       setHotelProps(result);
@@ -231,9 +244,11 @@ const HotelMap = () => {
               </button>
             </form>
             <h3>Interlook hotels name mapping: </h3>
+
             <form>
-              {hotelProps.length > 0
-                ? hotelProps.map((el, i) => {
+              {hotelProps.length > 0 ? (
+                <>
+                  {hotelProps.map((el, i) => {
                     const integrationCode = selectedIntegration.code;
                     return (
                       <div key={el._id}>
@@ -266,8 +281,15 @@ const HotelMap = () => {
                         </button>
                       </div>
                     );
-                  })
-                : "please select a hotel or refine the search to display hotels mapping list"}
+                  })}
+                  <i>
+                    ** The hotel will not be displayed if it has already been
+                    matched to another integration manager.
+                  </i>
+                </>
+              ) : (
+                "please select a hotel or refine the search to display hotels mapping list"
+              )}
             </form>
           </>
         )}

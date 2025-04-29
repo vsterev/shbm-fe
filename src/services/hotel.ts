@@ -6,7 +6,7 @@ const API_URL = `${import.meta.env.VITE_BACKEND_API}`;
 
 const HotelService = {
   get: async (
-    data: { hotelName: string },
+    data: { hotelName: string; integrationName: string },
     token: string,
   ): Promise<HotelInterlook[]> => {
     try {
