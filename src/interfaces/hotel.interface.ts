@@ -1,7 +1,7 @@
 export interface Board {
   boardId: number;
   boardName: string;
-  parserCode?: string;
+  integrationCode?: string;
 }
 
 export interface Room {
@@ -9,7 +9,7 @@ export interface Room {
   roomTypeName: string;
   roomCategoryId: number;
   roomCategoryName: string;
-  parserCode?: string;
+  integrationCode?: string;
 }
 export interface AccommodationMapping {
   _id: number;

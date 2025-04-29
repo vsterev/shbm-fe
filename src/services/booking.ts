@@ -87,6 +87,7 @@ const BookingService = {
     data: Booking[],
     token: string,
     integrationName: string,
+    flag?: "new" | "change" | "cancel",
   ): Promise<{
     errors: number;
     sended: number;
@@ -95,17 +96,17 @@ const BookingService = {
     cancelled: number;
   }> => {
     try {
-      const response = await fetch(
-        `${API_URL}/bookings?integrationName=${integrationName}`,
-        {
-          body: JSON.stringify(data),
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        },
+      const params = new URLSearchParams(
+        flag ? { integrationName, flag: flag.toString() } : { integrationName },
       );
+      const response = await fetch(`${API_URL}/bookings?${params}`, {
+        body: JSON.stringify(data),
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
       return await response.json();
     } catch (error) {

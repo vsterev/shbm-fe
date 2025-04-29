@@ -2,11 +2,7 @@ import React, { useState, useEffect, useMemo } from "react";
 import HotelCreateVariant from "./HotelCreateVariant";
 import styles from "../styles/AccommodationsMap.module.css";
 import appCookie from "../../utils/appCookie";
-import {
-  Board,
-  AccommodationMapping,
-  Room,
-} from "../../interfaces/hotel.interface";
+import { AccommodationMapping, Room } from "../../interfaces/hotel.interface";
 import ReactLoading from "react-loading";
 import { toast } from "react-toastify";
 import { useIntegrationContext } from "../../contexts/integration.context";
@@ -73,11 +69,10 @@ const HotelInfo = ({ selectedHotelId }: HotelInfoProps) => {
       temp[index] = {} as (typeof temp)[keyof typeof temp];
     }
 
-    temp[index][apiCode as keyof (typeof temp)[keyof typeof temp]] = value;
+    temp[index].integrationCode = value;
 
     setAccommodationsMap({ ...accommodationsMap, [name]: temp });
   };
-
   const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -162,9 +157,8 @@ const HotelInfo = ({ selectedHotelId }: HotelInfoProps) => {
                         <input
                           type="text"
                           value={
-                            accommodationsMap?.boards[Number(boardCode)]?.[
-                              apiCode as keyof Board
-                            ] || ""
+                            accommodationsMap?.boards[Number(boardCode)]
+                              .integrationCode || ""
                           }
                           name="boards"
                           onChange={(e) => changeHandler(e, boardCode)}
@@ -182,15 +176,11 @@ const HotelInfo = ({ selectedHotelId }: HotelInfoProps) => {
                       {accommodationsMap.rooms[el].roomCategoryName}
                       <input
                         type="text"
-                        value={
-                          accommodationsMap.rooms[el]?.[
-                            apiCode as keyof Room
-                          ] || ""
-                        }
+                        value={accommodationsMap.rooms[el]?.integrationCode}
                         name="rooms"
                         onChange={(e) => changeHandler(e, el)}
                         style={{
-                          minWidth: `${typeof accommodationsMap.rooms[el]?.[apiCode as keyof Room] === "string" ? (accommodationsMap.rooms[el]?.[apiCode as keyof Room] as string).length + 5 : "auto"}ch`,
+                          minWidth: `${typeof accommodationsMap.rooms[el]?.[apiCode as keyof Room] === "string" ? (accommodationsMap.rooms[el]?.integrationCode?.length ?? 0) + 5 : "auto"}ch`,
                         }}
                       />
                     </div>
