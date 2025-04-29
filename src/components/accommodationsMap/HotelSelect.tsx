@@ -27,6 +27,7 @@ function HotelSelect({
     if (!selectedIntegration) {
       return;
     }
+    setSelectedHotelId(undefined);
     const token = appCookie("hbs-token");
     return HotelService.getMapped(token, selectedIntegration.name)
       .then((hotels) => {
