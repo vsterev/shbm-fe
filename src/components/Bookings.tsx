@@ -144,7 +144,7 @@ const GetBookings = () => {
       })
       .catch((err) => {
         if (err instanceof Error) {
-          toast.error("1" + err.message);
+          toast.error(err.message);
         }
         console.error(err);
       })
