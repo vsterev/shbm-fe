@@ -95,24 +95,23 @@ const BookingService = {
     notConfirmed: number;
     cancelled: number;
   }> => {
-    try {
-      const params = new URLSearchParams(
-        flag ? { integrationName, flag: flag.toString() } : { integrationName },
-      );
-      const response = await fetch(`${API_URL}/bookings?${params}`, {
-        body: JSON.stringify(data),
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      return await response.json();
-    } catch (error) {
-      console.error(error);
-      throw error;
+    const params = new URLSearchParams(
+      flag ? { integrationName, flag: flag.toString() } : { integrationName },
+    );
+    const response = await fetch(`${API_URL}/bookings?${params}`, {
+      body: JSON.stringify(data),
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(`Error: ${response.status} - ${error.error}`);
     }
+
+    return await response.json();
   },
 };
 export default BookingService;

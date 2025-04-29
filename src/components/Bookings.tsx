@@ -142,6 +142,12 @@ const GetBookings = () => {
           `Sended: ${sended}, confirmed: ${confirmed}, cancelled: ${cancelled}`,
         );
       })
+      .catch((err) => {
+        if (err instanceof Error) {
+          toast.error("1" + err.message);
+        }
+        console.error(err);
+      })
       .finally(() => {
         setTimeout(() => {
           setRefresh((prev) => prev + 1);
