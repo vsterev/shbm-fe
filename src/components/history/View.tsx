@@ -107,7 +107,7 @@ const HistoryView = ({ bookingsArr, params }: HistoryViewProps) => {
                   {toggleArr[i] === true && (
                     <tr>
                       <td colSpan={14}>
-                        {el?.hotelServices.some((hts) => hts.log?.send) && (
+                        {el?.hotelServices.some((hts) => hts.log) && (
                           <div>
                             <h4>integration log:</h4>
                             {el.hotelServices.map((hts, index) => {
