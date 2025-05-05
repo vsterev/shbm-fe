@@ -1,10 +1,9 @@
 import React, { Dispatch, SetStateAction, useState } from "react";
 import appCookie from "../../utils/appCookie";
-import styles from "../styles/AccommodationsMap.module.css";
-import { toast } from "react-toastify";
 import { useIntegrationContext } from "../../contexts/integration.context";
 import AccommodationService from "../../services/accommodation";
-import ReactLoading from "react-loading";
+import { Button, Loader, View, Text, Calendar } from "reshaped";
+import useToastService from "../../utils/toastService";
 
 interface HotelCreateVariantProps {
   selectedHotelId: number | undefined;
@@ -22,7 +21,11 @@ const HotelCreateVariant = ({
 
   const { selectedIntegration } = useIntegrationContext();
 
-  const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
+  const toast = useToastService();
+
+  const submitHandler = async (
+    e: React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLElement>,
+  ) => {
     if (!selectedHotelId || !selectedIntegration) {
       return;
     }
@@ -48,41 +51,41 @@ const HotelCreateVariant = ({
     }
   };
 
+  // @ts-ignore
+  const calendarHandler = (args) => {
+    const { start, end } = args.value;
+    if (start && end) {
+      setDateFrom(start.toISOString().split("T")[0]);
+      setDateTo(end.toISOString().split("T")[0]);
+    }
+  };
+
   return (
-    <>
-      <div>
-        Boards and accommodations are not synced, please fill this form to map
-        it !
-      </div>
+    <View gap={2}>
+      <Text variant="body-1">
+        Boards and accommodations are not synchronized. Please select a period
+        to fetch available accommodations.
+      </Text>
       {loader ? (
-        <ReactLoading type="bubbles" color="blue" height={100} width={100} />
+        <View width="canter" align="center">
+          <Loader size="large" />
+        </View>
       ) : (
-        <form onSubmit={submitHandler}>
-          <div>
-            <label htmlFor="dateFrom">date from: </label>
-            <input
-              type="date"
-              id="dateFrom"
-              name="dateFrom"
-              value={dateFrom}
-              onChange={(e) => {
-                setDateFrom(e.target.value);
-                setDateTo(e.target.value);
-              }}
-            />
-            <label htmlFor="dateTo">date to: </label>
-            <input
-              type="date"
-              id="dateTo"
-              name="dateTo"
-              value={dateTo}
-              onChange={(e) => setDateTo(e.target.value)}
-            />
-          </div>
-          <button className={styles.submitButton}>create variant</button>
-        </form>
+        <>
+          <View width={100} align="center" gap={2}>
+            <Calendar range onChange={calendarHandler} />
+            <Button
+              onClick={submitHandler}
+              variant="solid"
+              color="primary"
+              fullWidth
+            >
+              create variant
+            </Button>
+          </View>
+        </>
       )}
-    </>
+    </View>
   );
 };
 export default HotelCreateVariant;

@@ -17,12 +17,20 @@ This is the frontend application for the **Solvex Hotel Booking Manager**, built
 
 - **Framework:** React (with Hooks)
 - **Tooling:** Vite
+- **Design System:** Reshaped
 - **Routing:** React Router v6+
 - **Auth:** JWT tokens (via backend)
 - **CI/CD:** GitHub Actions (optional)
 - **Deployment:** PM2+
 
 ---
+## 💅 Design System
+
+This project implements the Reshaped design system to ensure consistent, accessible, and responsive UI components. Reshaped provides a set of ready-to-use primitives like View, Text, Button, and layout utilities that help enforce design standards across the frontend.
+
+Using spacing tokens, and predefined color themes (like primary, neutral, warning, etc.), the UI adapts seamlessly across breakpoints. This promotes design consistency and reduces custom CSS or styling logic.
+
+All components follow the Reshaped conventions and should be used with provided props to leverage its responsive and theme-aware features
 
 ## ✅ Prerequisites
 

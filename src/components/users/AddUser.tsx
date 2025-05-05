@@ -1,12 +1,21 @@
-import { useEffect, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import userService from "../../services/user";
 import appCookie from "../../utils/appCookie";
-import styles from "../styles/History.module.css";
 import type {
   AddUser,
   EditUser,
   GetUser,
 } from "../../interfaces/user.interface";
+import {
+  Button,
+  Checkbox,
+  Dismissible,
+  FormControl,
+  Modal,
+  Text,
+  TextField,
+  View,
+} from "reshaped";
 
 interface AddUserProps {
   setUsers: (users: GetUser[]) => void;
@@ -14,6 +23,9 @@ interface AddUserProps {
   toggleAdd?: () => void;
   editUser?: AddUser;
   setEditUser?: (user: AddUser) => void;
+  toggle: () => void;
+  deactivate: () => void;
+  active: boolean;
 }
 
 const AddUser = ({
@@ -22,6 +34,8 @@ const AddUser = ({
   action,
   editUser,
   setEditUser,
+  deactivate,
+  active,
 }: AddUserProps) => {
   const [userParams, setUserParams] = useState<AddUser | EditUser>({
     isAdmin: false,
@@ -44,17 +58,24 @@ const AddUser = ({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [editUser]);
+  console.log("v modala sym");
 
-  const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
+  const changeHandler = (e: {
+    name: string;
+    value?: string;
+    checked?: boolean;
+    event?: React.ChangeEvent<HTMLInputElement>;
+  }) => {
+    const { name, value } = e;
     if (name === "isAdmin") {
       setUserParams({ ...userParams, isAdmin: !userParams.isAdmin });
       return;
     }
     setUserParams({ ...userParams, [name]: value });
   };
+  console.log("userParams", userParams);
 
-  const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
+  const submitHandler = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (userParams.password !== userParams.repass && action === "new") {
       return setErr("password mismatch");
@@ -74,6 +95,7 @@ const AddUser = ({
             setErr(registeredUser.error);
           } else {
             toggleAdd();
+            deactivate();
           }
         } else {
           const editedUser = await userService.edit(
@@ -89,6 +111,7 @@ const AddUser = ({
         }
         const users = await userService.allUsers(token);
         setUsers(users);
+        deactivate();
       } catch (error) {
         console.error(error);
         if (error instanceof Error) {
@@ -118,59 +141,94 @@ const AddUser = ({
     }
     setErr("");
   };
-
+  console.log(userParams?.password?.length);
   return (
-    <>
-      <div className={styles.historyTopWrap}>
+    <Modal
+      active={active}
+      onClose={deactivate}
+      position="end"
+      // transparentOverlay
+      overflow="visible"
+    >
+      <View direction="row" justify="space-between">
         {action === "new" ? (
-          <h3>Add a new user</h3>
+          <Text variant="featured-2">Add a new user</Text>
         ) : (
-          <h3>Edit existing user</h3>
+          <Text variant="featured-2">Edit existing user</Text>
         )}
-        <form onSubmit={submitHandler}>
-          <label htmlFor="email">email</label>
-          <input
-            type="text"
-            id="email"
-            name="email"
-            value={userParams.email || ""}
-            onChange={(e) => changeHandler(e)}
-            disabled={action === "edit"}
-          />
-          <label htmlFor="name">name</label>
-          <input
-            type="text"
-            id="name"
-            name="name"
-            value={userParams.name || ""}
-            onChange={(e) => changeHandler(e)}
-          />
-          <label htmlFor="isAdmin">is admin</label>
-          <input
-            type="checkbox"
-            id="isAdmin"
-            name="isAdmin"
-            checked={userParams.isAdmin}
-            onChange={(e) => changeHandler(e)}
-          />
-          <label htmlFor="pass">password</label>
-          <input
-            type="password"
-            id="pass"
-            name="password"
-            value={userParams.password || ""}
-            onChange={(e) => changeHandler(e)}
-          />
-          <label htmlFor="repass">retype password</label>
-          <input
-            type="password"
-            id="repass"
-            name="repass"
-            value={userParams.repass || ""}
-            onChange={(e) => changeHandler(e)}
-            onBlur={(e) => blurHandler(e)}
-          />
-          <button
+        <Dismissible closeAriaLabel="Close banner" onClose={deactivate} />
+      </View>
+      <form onSubmit={submitHandler}>
+        <View paddingTop={5} direction="column" gap={5}>
+          <FormControl required>
+            <FormControl.Label>email</FormControl.Label>
+            <TextField
+              name="email"
+              value={userParams.email || ""}
+              onChange={(e) => changeHandler(e)}
+              disabled={action === "edit"}
+            />
+            <FormControl.Error>Email is required</FormControl.Error>
+          </FormControl>
+
+          <FormControl required>
+            <FormControl.Label>name</FormControl.Label>
+            <TextField
+              id="name"
+              name="name"
+              value={userParams.name || ""}
+              onChange={(e) => changeHandler(e)}
+            />
+          </FormControl>
+
+          <FormControl>
+            <FormControl.Label>is admin</FormControl.Label>
+            <Checkbox
+              name="isAdmin"
+              checked={userParams.isAdmin}
+              onChange={(e) => changeHandler(e)}
+            />
+          </FormControl>
+
+          <FormControl
+            hasError={
+              userParams.password ? userParams.password.length < 6 : false
+            }
+          >
+            <FormControl.Label>password</FormControl.Label>
+            <TextField
+              name="password"
+              value={userParams.password || ""}
+              onChange={(e) => changeHandler(e)}
+              inputAttributes={{ type: "password" }}
+            />
+            <FormControl.Error>
+              Password must be at least 6 characters long
+            </FormControl.Error>
+          </FormControl>
+
+          <FormControl
+            hasError={
+              (userParams.repass &&
+                userParams.password &&
+                userParams.repass !== userParams.password) ||
+              false
+            }
+          >
+            <FormControl.Label>retype password</FormControl.Label>
+            <TextField
+              name="repass"
+              inputAttributes={{ type: "password" }}
+              value={userParams.repass || ""}
+              onChange={(e) => changeHandler(e)}
+              onBlur={(e) => blurHandler(e)}
+            />
+            <FormControl.Error>
+              Password mismatch or password is required
+            </FormControl.Error>
+          </FormControl>
+          <Button
+            type="submit"
             disabled={
               (action === "new" &&
                 (!userParams.email ||
@@ -179,14 +237,15 @@ const AddUser = ({
                   !userParams.repass)) ||
               err !== ""
             }
-            className={styles.submitButton}
+            variant="outline"
+            color="primary"
           >
-            submit
-          </button>
-        </form>
-        <div className={styles.error}>{err}</div>
-      </div>
-    </>
+            Submit
+          </Button>
+          <div>{err}</div>
+        </View>
+      </form>
+    </Modal>
   );
 };
 export default AddUser;

@@ -1,12 +1,20 @@
 import React, { useState, useEffect, useMemo } from "react";
 import HotelCreateVariant from "./HotelCreateVariant";
-import styles from "../styles/AccommodationsMap.module.css";
 import appCookie from "../../utils/appCookie";
-import { AccommodationMapping, Room } from "../../interfaces/hotel.interface";
-import ReactLoading from "react-loading";
-import { toast } from "react-toastify";
+import { AccommodationMapping } from "../../interfaces/hotel.interface";
 import { useIntegrationContext } from "../../contexts/integration.context";
 import AccommodationService from "../../services/accommodation";
+import {
+  View,
+  Text,
+  TextField,
+  Button,
+  Card,
+  useToggle,
+  Loader,
+} from "reshaped";
+import DeleteAlert from "../shared/DeleteAlert";
+import useToastService from "../../utils/toastService";
 
 interface HotelInfoProps {
   selectedHotelId: number | undefined;
@@ -21,9 +29,7 @@ const HotelInfo = ({ selectedHotelId }: HotelInfoProps) => {
 
   const { selectedIntegration } = useIntegrationContext();
 
-  const apiCode = selectedIntegration?.code as string as
-    | keyof AccommodationMapping["boards"]
-    | keyof AccommodationMapping["rooms"];
+  const toast = useToastService();
 
   useEffect(() => {
     if (!selectedHotelId) {
@@ -51,13 +57,17 @@ const HotelInfo = ({ selectedHotelId }: HotelInfoProps) => {
   }, [selectedHotelId, refresh]);
 
   const changeHandler = (
-    e: React.ChangeEvent<HTMLInputElement>,
+    e: {
+      name: string;
+      value: string;
+      event?: React.ChangeEvent<HTMLInputElement> | undefined;
+    },
     el: number | string,
   ) => {
     if (!selectedIntegration) {
       return;
     }
-    const { name, value } = e.target as HTMLInputElement;
+    const { name, value } = e;
     const typedName = name as "rooms" | "boards";
     const index = name === "boards" ? Number(el) : String(el);
 
@@ -95,17 +105,12 @@ const HotelInfo = ({ selectedHotelId }: HotelInfoProps) => {
       .catch((error) => console.log(error));
   };
 
-  const deleteHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    if (
-      window.confirm(
-        `Confirm delete of ${accommodationsMap.hotelName}, all mappings also will be deleted`,
-      )
-    ) {
-      AccommodationService.delete(accommodationsMap?._id, token).then(() => {
+  const deleteHandler = async () => {
+    await AccommodationService.delete(accommodationsMap?._id, token).then(
+      () => {
         setAccommodationsMap(() => ({}) as AccommodationMapping);
-      });
-    }
+      },
+    );
   };
 
   const activateCreateVariants = useMemo(() => {
@@ -113,13 +118,21 @@ const HotelInfo = ({ selectedHotelId }: HotelInfoProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [accommodationsMap, selectedHotelId]);
 
+  const {
+    active: activeDelete,
+    activate: activateDelete,
+    deactivate: deactivateDelete,
+  } = useToggle(false);
+
   if (!selectedHotelId) {
     return null;
   }
 
   if (!accommodationsMap) {
     return (
-      <ReactLoading type="bubbles" color="blue" height={100} width={100} />
+      <View width="100&" align="center">
+        <Loader size="large" />
+      </View>
     );
   }
 
@@ -128,73 +141,109 @@ const HotelInfo = ({ selectedHotelId }: HotelInfoProps) => {
   }
 
   return (
-    <>
-      <div className={styles.accomElements}>
-        <h3>hotel Interlook information for {accommodationsMap.hotelName}:</h3>
-        {activateCreateVariants ? (
-          <div>
-            <div>
-              <HotelCreateVariant
-                selectedHotelId={selectedHotelId}
-                setRefresh={setRefresh}
-              />
-            </div>
-          </div>
-        ) : (
-          <div>
-            <h4>boards:</h4>
-            <form onSubmit={submitHandler}>
-              {accommodationsMap?.boards &&
-                Object.keys(accommodationsMap?.boards).map(
-                  (boardCode: string) => {
+    <Card>
+      <View backgroundColor="neutral" padding={2} borderRadius="medium">
+        <Text variant="body-1">
+          Interlook information and mappings for {accommodationsMap.hotelName}:
+        </Text>
+      </View>
+      {activateCreateVariants ? (
+        <HotelCreateVariant
+          selectedHotelId={selectedHotelId}
+          setRefresh={setRefresh}
+        />
+      ) : (
+        <View gap={2}>
+          <form onSubmit={submitHandler}>
+            <View
+              direction="row"
+              width="60%"
+              align="start"
+              justify="space-between"
+            >
+              <View gap={2}>
+                <Text variant="body-3">boards:</Text>
+                {accommodationsMap?.boards &&
+                  Object.keys(accommodationsMap?.boards).map(
+                    (boardCode: string) => {
+                      return (
+                        <View
+                          key={boardCode}
+                          gap={3}
+                          direction="row"
+                          align="center"
+                        >
+                          <Text variant="body-3">
+                            {
+                              accommodationsMap?.boards[Number(boardCode)]
+                                ?.boardId
+                            }
+                            ,{" "}
+                            {
+                              accommodationsMap?.boards[Number(boardCode)]
+                                ?.boardName
+                            }{" "}
+                          </Text>
+                          <TextField
+                            value={
+                              accommodationsMap?.boards[Number(boardCode)]
+                                .integrationCode || ""
+                            }
+                            name="boards"
+                            onChange={(e) => changeHandler(e, boardCode)}
+                          />
+                        </View>
+                      );
+                    },
+                  )}
+              </View>
+              <View gap={2}>
+                <Text variant="body-3">rooms:</Text>
+                {accommodationsMap?.rooms &&
+                  Object.keys(accommodationsMap?.rooms).map((el) => {
                     return (
-                      <div key={boardCode}>
-                        {accommodationsMap?.boards[Number(boardCode)]?.boardId},{" "}
-                        {
-                          accommodationsMap?.boards[Number(boardCode)]
-                            ?.boardName
-                        }{" "}
-                        <input
-                          type="text"
-                          value={
-                            accommodationsMap?.boards[Number(boardCode)]
-                              .integrationCode || ""
-                          }
-                          name="boards"
-                          onChange={(e) => changeHandler(e, boardCode)}
-                        />
-                      </div>
+                      <View key={el} gap={3} direction="row" align="center">
+                        <Text variant="body-3">
+                          {el}, {accommodationsMap.rooms[el].roomTypeName}{" "}
+                          {accommodationsMap.rooms[el].roomCategoryName}
+                        </Text>
+                        <View width={90}>
+                          <TextField
+                            value={accommodationsMap.rooms[el]?.integrationCode}
+                            name="rooms"
+                            onChange={(e) => changeHandler(e, el)}
+                          />
+                        </View>
+                      </View>
                     );
-                  },
-                )}
-              <h4>rooms:</h4>
-              {accommodationsMap?.rooms &&
-                Object.keys(accommodationsMap?.rooms).map((el) => {
-                  return (
-                    <div key={el}>
-                      {el}, {accommodationsMap.rooms[el].roomTypeName}{" "}
-                      {accommodationsMap.rooms[el].roomCategoryName}
-                      <input
-                        type="text"
-                        value={accommodationsMap.rooms[el]?.integrationCode}
-                        name="rooms"
-                        onChange={(e) => changeHandler(e, el)}
-                        style={{
-                          minWidth: `${typeof accommodationsMap.rooms[el]?.[apiCode as keyof Room] === "string" ? (accommodationsMap.rooms[el]?.integrationCode?.length ?? 0) + 5 : "auto"}ch`,
-                        }}
-                      />
-                    </div>
-                  );
-                })}
-              <button className={styles.submitButton}>Submit</button>
-              <button className={styles.deleteButton} onClick={deleteHandler}>
+                  })}
+              </View>
+            </View>
+            <View direction="row" gap={2} justify="center" paddingTop={2}>
+              <Button type="submit" variant="solid" color="primary">
+                Submit
+              </Button>
+              <Button
+                variant="solid"
+                color="critical"
+                onClick={() => {
+                  activateDelete();
+                }}
+              >
                 Delete
-              </button>
-            </form>
-          </div>
-        )}
-      </div>
-    </>
+              </Button>
+            </View>
+          </form>
+        </View>
+      )}
+      {activeDelete && (
+        <DeleteAlert
+          deleteFunction={deleteHandler}
+          deactivate={deactivateDelete}
+          active={activeDelete}
+        />
+      )}
+    </Card>
   );
 };
 
