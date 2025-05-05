@@ -1,8 +1,8 @@
 .spanLink {
-    color:red;
-    padding: 10px
+  color: red;
+  padding: 10px;
 }
 .spanLink:hover {
-    background-color: rgb(247, 229, 203);
-    cursor: pointer
+  background-color: rgb(247, 229, 203);
+  cursor: pointer;
 }

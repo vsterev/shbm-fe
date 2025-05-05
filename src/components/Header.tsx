@@ -1,67 +1,90 @@
+import {
+  Container,
+  Divider,
+  Text,
+  TextProps,
+  useResponsiveClientValue,
+  useTheme,
+  View,
+} from "reshaped";
+import { Button } from "reshaped";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useAuthContext } from "../contexts/auth.context";
-import styles from "./styles/navigation.module.css";
+import { LogOut } from "react-feather";
+import { Moon, Sun } from "react-feather";
+
+const navItems = [
+  { path: "/bookings", label: "Bookings" },
+  { path: "/history", label: "History" },
+  { path: "/accommodations", label: "Map Accommodations" },
+  { path: "/hotel-map", label: "Map Hotels" },
+  { path: "/users", label: "Users" },
+];
 
 const Header = () => {
   const { user } = useAuthContext();
   const navigate = useNavigate();
+
+  const { invertColorMode, colorMode } = useTheme();
+
+  const responsiveText = useResponsiveClientValue<TextProps["variant"]>({
+    s: "body-2", // For small devices
+    l: "title-6", // For medium and larger devices
+  });
+
   return (
-    <>
-      <div className={styles.navWrap}>
-        <nav>
-          <div className={styles.topnav}>
-            <NavLink
-              to="/bookings"
-              className={({ isActive }: { isActive: boolean }) =>
-                isActive ? styles.navButtonActive : styles.navButton
-              }
-            >
-              bookings
+    <View direction="column">
+      <View
+        direction="row"
+        justify="space-between"
+        align="center"
+        padding={3}
+        backgroundColor="neutral-faded"
+      >
+        <View direction="row" gap={2} borderRadius="small">
+          {navItems.map(({ path, label }) => (
+            <NavLink key={path} to={path}>
+              {({ isActive }) => (
+                <Button
+                  variant={isActive ? "solid" : "outline"}
+                  color="primary"
+                >
+                  {label}
+                </Button>
+              )}
             </NavLink>
-            <NavLink
-              to="/history"
-              className={({ isActive }: { isActive: boolean }) =>
-                isActive ? styles.navButtonActive : styles.navButton
-              }
-            >
-              history
-            </NavLink>
-            <NavLink
-              to="/accommodations"
-              className={({ isActive }: { isActive: boolean }) =>
-                isActive ? styles.navButtonActive : styles.navButton
-              }
-            >
-              map accommodations
-            </NavLink>
-            <NavLink
-              to="/hotel-map"
-              className={({ isActive }: { isActive: boolean }) =>
-                isActive ? styles.navButtonActive : styles.navButton
-              }
-            >
-              map hotels
-            </NavLink>
-            <NavLink
-              to="/users"
-              className={({ isActive }: { isActive: boolean }) =>
-                isActive ? styles.navButtonActive : styles.navButton
-              }
-            >
-              users
-            </NavLink>
-            {/* <NavLink to="/bookings" style={({ isActive }) => isActive ? { textDecoration: "none", color: 'grey' } : { color: 'blue' }}>bookings</NavLink> */}
-          </div>
-        </nav>
-        <h2 className={styles.headerTitle}>Solvex Hotel Booking Manager </h2>
-        <div>user: {user?.name}</div>
-        <div
-          className={styles.logOut}
-          onClick={() => navigate("/logout")}
-        ></div>
-        {/* <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@48,400,0,0" /> */}
-      </div>
-    </>
+          ))}
+        </View>
+
+        <View justify="start" width="40%" align="start">
+          <Text variant={responsiveText} color="neutral-faded">
+            Solvex Hotel Booking Manager
+          </Text>
+        </View>
+        <View direction="row" gap={3} align="center">
+          <Button
+            variant="ghost"
+            icon={colorMode === "light" ? Moon : Sun}
+            onClick={invertColorMode}
+          ></Button>
+          <Text>user: </Text>
+          <Text>{user?.name}</Text>
+          <Button
+            color="critical"
+            variant="outline"
+            onClick={() => navigate("/logout")}
+            endIcon={<LogOut />}
+          >
+            Logout
+          </Button>
+        </View>
+      </View>
+      <Container width="97vw">
+        <View backgroundColor="neutral">
+          <Divider />
+        </View>
+      </Container>
+    </View>
   );
 };
 

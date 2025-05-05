@@ -1,11 +1,10 @@
 import { Dispatch, SetStateAction, useEffect } from "react";
 import appCookie from "../../utils/appCookie";
 // import UserContext from '../../utils/userContext';
-import styles from "../styles/AccommodationsMap.module.css";
 import { HotelInterlook } from "../../interfaces/hotel.interface";
 import HotelService from "../../services/hotel";
 import { useIntegrationContext } from "../../contexts/integration.context";
-import ReactLoading from "react-loading";
+import { FormControl, Loader, Select, View } from "reshaped";
 
 interface HotelSelectProps {
   selectedHotelId: number | undefined;
@@ -15,7 +14,6 @@ interface HotelSelectProps {
 }
 
 function HotelSelect({
-  selectedHotelId,
   setSelectedHotelId,
   mappedHotels,
   setMappedHotels,
@@ -44,45 +42,32 @@ function HotelSelect({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedIntegration?.code]);
 
-  const changeHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedHotelId(e.target.value ? +e.target.value : undefined);
+  const changeHandler = (e: { value: string }) => {
+    setSelectedHotelId(e.value ? +e.value : undefined);
   };
 
   return (
-    <>
-      <div className={styles.accomElements}>
-        <div>
-          Select mapped hotel from {selectedIntegration?.displayName}{" "}
-          integration
-        </div>
-        <div>
-          {!mappedHotels ? (
-            <ReactLoading
-              type="bubbles"
-              color="blue"
-              height={100}
-              width={100}
-            />
-          ) : (
-            <select
-              id="select"
-              value={selectedHotelId}
+    <View>
+      {!mappedHotels ? (
+        <View width="100%" align="center">
+          <Loader size="large" />
+        </View>
+      ) : (
+        <FormControl>
+          <View direction="column" width={100}>
+            <Select
+              name="mappedHotels"
+              placeholder="Select a hotel"
               onChange={changeHandler}
-            >
-              {!selectedHotelId && <option value="">choose a hotel</option>}
-              {Array.isArray(mappedHotels) &&
-                mappedHotels?.map((el) => {
-                  return (
-                    <option key={el._id} value={el._id}>
-                      {el.name}
-                    </option>
-                  );
-                })}
-            </select>
-          )}
-        </div>
-      </div>
-    </>
+              options={mappedHotels.map((hotel) => ({
+                label: hotel.name,
+                value: hotel._id.toString(),
+              }))}
+            />
+          </View>
+        </FormControl>
+      )}
+    </View>
   );
 }
 export default HotelSelect;

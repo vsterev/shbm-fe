@@ -5,21 +5,29 @@ import { HelmetProvider } from "react-helmet-async";
 import { AuthProvider } from "./contexts/auth.context";
 import { BrowserRouter } from "react-router-dom";
 import { IntegrationProvider } from "./contexts/integration.context";
-import { ToastContainer } from "react-toastify";
+import "reshaped/themes/slate/theme.css";
+import { Reshaped } from "reshaped";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <HelmetProvider>
-      <Suspense fallback={<div>Loading...</div>}>
-        <AuthProvider>
-          <ToastContainer position="bottom-right" autoClose={3000} />
-          <IntegrationProvider>
-            <BrowserRouter>
-              <AppRoutes />
-            </BrowserRouter>
-          </IntegrationProvider>
-        </AuthProvider>
-      </Suspense>
+      <Reshaped
+        theme="slate"
+        defaultColorMode="light"
+        toastOptions={{
+          bottom: { width: "460px", expanded: false },
+        }}
+      >
+        <Suspense fallback={<div>Loading...</div>}>
+          <AuthProvider>
+            <IntegrationProvider>
+              <BrowserRouter>
+                <AppRoutes />
+              </BrowserRouter>
+            </IntegrationProvider>
+          </AuthProvider>
+        </Suspense>
+      </Reshaped>
     </HelmetProvider>
   </StrictMode>,
 );

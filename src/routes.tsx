@@ -1,13 +1,13 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import UserLogin from "./components/Login";
-import History from "./components/History";
-import Bookings from "./components/Bookings";
+import History from "./pages/History";
+import Bookings from "./pages/Bookings";
 import NotFound from "./components/NotFound";
 import { useAuthContext } from "./contexts/auth.context";
 import OutletTemplate from "./components/OutletTemplate";
-import Users from "./components/Users";
-import AccommodationsMap from "./components/AccommodationsMap";
-import HotelMap from "./components/HotelMap";
+import Users from "./pages/Users";
+import AccommodationsMap from "./pages/AccommodationsMap";
+import HotelMap from "./pages/HotelMap";
 import Logout from "./components/user/Logout";
 
 const AppRoutes = () => {

@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import appCookie from "../../utils/appCookie";
-import styles from "../styles/AccommodationsMap.module.css";
 import { HotelInterlook } from "../../interfaces/hotel.interface";
 import { useIntegrationContext } from "../../contexts/integration.context";
-import ReactLoading from "react-loading";
 import IntegrationService from "../../services/integration";
+import { View, Text, Loader, Card } from "reshaped";
+import IntegrationAlert from "../shared/integrationAlert";
 
 interface HotelParserInfoProps {
   selectedHotelId: number | undefined;
@@ -15,7 +15,6 @@ const IntegrationHotelsInfo = ({
   selectedHotelId,
   mappedHotels,
 }: HotelParserInfoProps) => {
-  const [activeHotelName, setActiveHotelName] = useState<string>("");
   const token = appCookie("hbs-token");
   const [integrationHotelProperties, setIntegrationHotelProperties] = useState<
     { rooms: string[]; boards: string[] } | undefined
@@ -33,7 +32,6 @@ const IntegrationHotelsInfo = ({
       const integrationHotels = mappedHotels?.find(
         (el) => el._id === selectedHotelId,
       );
-      setActiveHotelName(integrationHotels?.name || "");
       const integrationHotelCode = Number(
         integrationHotels?.integrationSettings?.hotelCode,
       );
@@ -55,40 +53,50 @@ const IntegrationHotelsInfo = ({
   }, [selectedHotelId]);
 
   if (!selectedHotelId) {
-    return "Please select hotel";
+    return (
+      <IntegrationAlert
+        title="Select a hotel"
+        message=" To view all mappings please select hotel from dropdown"
+      />
+    );
   }
 
   if (!integrationHotelProperties) {
     return (
-      <ReactLoading type="bubbles" color="blue" height={100} width={100} />
+      <View width="100%" align="center">
+        <Loader size="large" />
+      </View>
     );
   }
 
   return (
-    <div className={styles.accomElements}>
-      <h3>
-        hotel {selectedIntegration?.displayName} information for{" "}
-        {activeHotelName}{" "}
-      </h3>
-      <h4> boards: </h4>
-      {!!integrationHotelProperties &&
-        integrationHotelProperties.boards?.map((el, i) => {
-          return <input type="text" key={i} value={el} disabled />;
-        })}
-      <h4>rooms: </h4>
-      {!!integrationHotelProperties &&
-        integrationHotelProperties.rooms?.map((el, i) => {
-          return (
-            <input
-              type="text"
-              key={i}
-              value={el || ""}
-              disabled
-              style={{ width: "23%" }}
-            />
-          );
-        })}
-    </div>
+    <Card>
+      <View backgroundColor="neutral" padding={2} borderRadius="medium">
+        <Text variant="body-1">Integration hotel properties</Text>
+      </View>
+      <Text variant="body-3"> boards: </Text>
+      <View direction="row" gap={2} wrap>
+        {!!integrationHotelProperties &&
+          integrationHotelProperties.boards?.map((el, i) => {
+            return <input type="text" key={i} value={el} disabled />;
+          })}
+      </View>
+      <Text variant="body-3">rooms: </Text>
+      <View direction="row" gap={2} wrap>
+        {!!integrationHotelProperties &&
+          integrationHotelProperties.rooms?.map((el, i) => {
+            return (
+              <input
+                type="text"
+                key={i}
+                value={el || ""}
+                disabled
+                style={{ width: "23%" }}
+              />
+            );
+          })}
+      </View>
+    </Card>
   );
 };
 export default IntegrationHotelsInfo;

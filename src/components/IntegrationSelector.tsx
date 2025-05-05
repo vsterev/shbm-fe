@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useIntegrationContext } from "../contexts/integration.context";
 import appCookie from "../utils/appCookie";
 import IntegrationService from "../services/integration";
+import { FormControl, Select, View } from "reshaped";
 
 const IntegrationSelector = () => {
   const {
@@ -21,27 +22,28 @@ const IntegrationSelector = () => {
   }, [token]);
 
   return (
-    <div style={{ margin: "1rem" }}>
-      <label htmlFor="integration">Used integration: </label>
-      <select
-        name="integration"
-        value={selectedIntegration?.name}
-        onChange={(e) => {
-          const selectedIntegration = integrations.find(
-            (i) => i.name === e.target.value,
-          );
-          setSelectedIntegration(selectedIntegration);
-        }}
-      >
-        <option value="">Select an integration</option>
-        {integrations.length &&
-          integrations?.map((i) => (
-            <option key={i.name} value={i.name}>
-              {i.displayName}
-            </option>
-          ))}
-      </select>
-    </div>
+    <View padding={4}>
+      <FormControl>
+        <View direction="row" justify="start" align="center" gap={4} grow>
+          <FormControl.Label>Choosen integration</FormControl.Label>
+          <Select
+            name="integration"
+            placeholder="Select an integration"
+            value={selectedIntegration?.name}
+            onChange={(e) => {
+              const selectedIntegration = integrations.find(
+                (i) => i.name === e.value,
+              );
+              setSelectedIntegration(selectedIntegration);
+            }}
+            options={integrations.map((integration) => ({
+              label: integration.displayName,
+              value: integration.name,
+            }))}
+          />
+        </View>
+      </FormControl>
+    </View>
   );
 };
 export default IntegrationSelector;
