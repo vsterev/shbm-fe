@@ -30,12 +30,8 @@
   --border-color-disabled: var(--rs-color-border-disabled);
   --text-color-disabled: var(--rs-color-foreground-disabled);
   --background-color-elevation-base: var(--rs-color-background-elevation-base);
-  --background-color-elevation-raised: var(
-    --rs-color-background-elevation-raised
-  );
-  --background-color-elevation-overlay: var(
-    --rs-color-background-elevation-overlay
-  );
+  --background-color-elevation-raised: var(--rs-color-background-elevation-raised);
+  --background-color-elevation-overlay: var(--rs-color-background-elevation-overlay);
   --background-color-page: var(--rs-color-background-page);
   --background-color-page-faded: var(--rs-color-background-page-faded);
   --color-brand: var(--rs-color-brand);

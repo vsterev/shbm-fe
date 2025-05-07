@@ -1,22 +1,19 @@
-import React, { Dispatch, SetStateAction, useState } from "react";
-import appCookie from "../../utils/appCookie";
-import { useIntegrationContext } from "../../contexts/integration.context";
-import AccommodationService from "../../services/accommodation";
-import { Button, Loader, View, Text, Calendar } from "reshaped";
-import useToastService from "../../utils/toastService";
+import React, { Dispatch, SetStateAction, useState } from 'react';
+import appCookie from '../../utils/appCookie';
+import { useIntegrationContext } from '../../contexts/integration.context';
+import AccommodationService from '../../services/accommodation';
+import { Button, Loader, View, Text, Calendar } from 'reshaped';
+import useToastService from '../../utils/toastService';
 
 interface HotelCreateVariantProps {
   selectedHotelId: number | undefined;
   setRefresh: Dispatch<SetStateAction<boolean>>;
 }
 
-const HotelCreateVariant = ({
-  selectedHotelId,
-  setRefresh,
-}: HotelCreateVariantProps) => {
-  const [dateFrom, setDateFrom] = useState("");
-  const [dateTo, setDateTo] = useState("");
-  const token = appCookie("hbs-token");
+const HotelCreateVariant = ({ selectedHotelId, setRefresh }: HotelCreateVariantProps) => {
+  const [dateFrom, setDateFrom] = useState('');
+  const [dateTo, setDateTo] = useState('');
+  const token = appCookie('hbs-token');
   const [loader, setLoader] = useState(false);
 
   const { selectedIntegration } = useIntegrationContext();
@@ -24,7 +21,7 @@ const HotelCreateVariant = ({
   const toast = useToastService();
 
   const submitHandler = async (
-    e: React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLElement>,
+    e: React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLElement>
   ) => {
     if (!selectedHotelId || !selectedIntegration) {
       return;
@@ -38,7 +35,7 @@ const HotelCreateVariant = ({
         checkOut: dateTo,
         integrationName: selectedIntegration.name,
       },
-      token,
+      token
     ).finally(() => {
       setLoader(false);
     });
@@ -55,16 +52,16 @@ const HotelCreateVariant = ({
   const calendarHandler = (args) => {
     const { start, end } = args.value;
     if (start && end) {
-      setDateFrom(start.toISOString().split("T")[0]);
-      setDateTo(end.toISOString().split("T")[0]);
+      setDateFrom(start.toISOString().split('T')[0]);
+      setDateTo(end.toISOString().split('T')[0]);
     }
   };
 
   return (
     <View gap={2}>
       <Text variant="body-1">
-        Boards and accommodations are not synchronized. Please select a period
-        to fetch available accommodations.
+        Boards and accommodations are not synchronized. Please select a period to fetch available
+        accommodations.
       </Text>
       {loader ? (
         <View width="canter" align="center">
@@ -74,12 +71,7 @@ const HotelCreateVariant = ({
         <>
           <View width={100} align="center" gap={2}>
             <Calendar range onChange={calendarHandler} />
-            <Button
-              onClick={submitHandler}
-              variant="solid"
-              color="primary"
-              fullWidth
-            >
+            <Button onClick={submitHandler} variant="solid" color="primary" fullWidth>
               create variant
             </Button>
           </View>

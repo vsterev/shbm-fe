@@ -1,5 +1,5 @@
-import { Alert, View } from "reshaped";
-import { Zap } from "react-feather";
+import { Alert, View } from 'reshaped';
+import { Zap } from 'react-feather';
 
 interface IntegrationAlertProps {
   message: string;

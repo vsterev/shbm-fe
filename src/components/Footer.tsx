@@ -1,4 +1,4 @@
-import { View, Text } from "reshaped";
+import { View, Text } from 'reshaped';
 
 const Footer = () => {
   return (

@@ -1,18 +1,8 @@
-import { Dispatch, SetStateAction, FormEventHandler, useEffect } from "react";
-import appCookie from "../../utils/appCookie";
-import {
-  Booking,
-  SearchBookingsParams,
-} from "../../interfaces/booking.interface";
-import BookingService from "../../services/booking";
-import {
-  Button,
-  FormControl,
-  Radio,
-  RadioGroup,
-  TextField,
-  View,
-} from "reshaped";
+import { Dispatch, SetStateAction, FormEventHandler, useEffect } from 'react';
+import appCookie from '../../utils/appCookie';
+import { Booking, SearchBookingsParams } from '../../interfaces/booking.interface';
+import BookingService from '../../services/booking';
+import { Button, FormControl, Radio, RadioGroup, TextField, View } from 'reshaped';
 
 interface HistorySearchFormProps {
   params: SearchBookingsParams;
@@ -39,7 +29,7 @@ const HistorySearchForm = ({
   }, [params.skip]);
 
   const searchResult = async () => {
-    const token = appCookie("hbs-token");
+    const token = appCookie('hbs-token');
 
     await BookingService.search(params, token).then((res) => {
       setBookingsArr(res.bookings);
@@ -57,9 +47,7 @@ const HistorySearchForm = ({
         <FormControl group>
           <RadioGroup
             name="isByDate"
-            onChange={(e) =>
-              setParams({ ...params, isCreateDate: e.value === "yes" })
-            }
+            onChange={(e) => setParams({ ...params, isCreateDate: e.value === 'yes' })}
           >
             <View direction="row" width={118} gap={5} justify="end">
               <Radio
@@ -97,9 +85,7 @@ const HistorySearchForm = ({
               name="dateFrom"
               id="dateFrom"
               value={params.dateFrom}
-              onChange={(e) =>
-                setParams({ ...params, dateFrom: e.target.value })
-              }
+              onChange={(e) => setParams({ ...params, dateFrom: e.target.value })}
             />
           </FormControl>
           <FormControl>

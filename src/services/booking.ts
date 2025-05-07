@@ -1,11 +1,8 @@
-import { Booking, SearchBookingsParams } from "../interfaces/booking.interface";
+import { Booking, SearchBookingsParams } from '../interfaces/booking.interface';
 const API_URL = `${import.meta.env.VITE_BACKEND_API}`;
 
 const BookingService = {
-  length: async (
-    data: SearchBookingsParams,
-    token: string,
-  ): Promise<number> => {
+  length: async (data: SearchBookingsParams, token: string): Promise<number> => {
     const searchParams = new URLSearchParams(
       Object.entries({
         ...data,
@@ -16,13 +13,13 @@ const BookingService = {
           acc[key] = value.toString();
           return acc;
         },
-        {} as Record<string, string>,
-      ),
+        {} as Record<string, string>
+      )
     );
     return fetch(`${API_URL}/bookings/length?${searchParams}`, {
-      method: "GET",
+      method: 'GET',
       headers: {
-        "Content-type": "application/json",
+        'Content-type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
     })
@@ -31,7 +28,7 @@ const BookingService = {
   },
   search: async (
     data: SearchBookingsParams,
-    token: string,
+    token: string
   ): Promise<{ bookings: Booking[]; count: number }> => {
     const searchParams = new URLSearchParams(
       Object.entries({
@@ -43,13 +40,13 @@ const BookingService = {
           acc[key] = value.toString();
           return acc;
         },
-        {} as Record<string, string>,
-      ),
+        {} as Record<string, string>
+      )
     );
     return fetch(`${API_URL}/bookings/search?${searchParams}`, {
-      method: "GET",
+      method: 'GET',
       headers: {
-        "Content-type": "application/json",
+        'Content-type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
     })
@@ -59,16 +56,16 @@ const BookingService = {
   get: async (
     data: { status: string; next: boolean },
     token: string,
-    integrationName: string,
+    integrationName: string
   ): Promise<Booking[]> => {
     try {
       const sendParams = new URLSearchParams(
-        `status=${data.status}&integrationName=${integrationName}&next=${data.next}`,
+        `status=${data.status}&integrationName=${integrationName}&next=${data.next}`
       );
       const response = await fetch(`${API_URL}/bookings?${sendParams}`, {
-        method: "GET",
+        method: 'GET',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
       });
@@ -87,7 +84,7 @@ const BookingService = {
     data: Booking[],
     token: string,
     integrationName: string,
-    flag?: "new" | "change" | "cancel",
+    flag?: 'new' | 'change' | 'cancel'
   ): Promise<{
     errors: number;
     sended: number;
@@ -96,13 +93,13 @@ const BookingService = {
     cancelled: number;
   }> => {
     const params = new URLSearchParams(
-      flag ? { integrationName, flag: flag.toString() } : { integrationName },
+      flag ? { integrationName, flag: flag.toString() } : { integrationName }
     );
     const response = await fetch(`${API_URL}/bookings?${params}`, {
       body: JSON.stringify(data),
-      method: "POST",
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
     });

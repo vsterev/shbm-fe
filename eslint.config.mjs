@@ -15,7 +15,7 @@
 
 import { fixupPluginRules } from '@eslint/compat';
 import eslint from '@eslint/js';
-import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended';
+import eslintPluginPrettier from 'eslint-plugin-prettier';
 import eslintPluginReact from 'eslint-plugin-react';
 import eslintPluginReactHooks from 'eslint-plugin-react-hooks';
 import reactRefresh from 'eslint-plugin-react-refresh';
@@ -24,37 +24,38 @@ import tseslint from 'typescript-eslint';
 import { defineConfig, globalIgnores } from 'eslint/config';
 
 export default tseslint.config(
-	eslint.configs.recommended,
-	...tseslint.configs.recommended,
-	eslintPluginPrettierRecommended,
-	{
-		ignores: ['**/dist/*, **/build/*'],
-	},
-	{
-		files: ['**/*.ts', '**/*.tsx'],
-	},
-	{
-		plugins: {
-			react: eslintPluginReact,
-			'react-refresh': reactRefresh,
-			'react-hooks': fixupPluginRules(eslintPluginReactHooks),
-		},
+  eslint.configs.recommended,
+  ...tseslint.configs.recommended,
+  {
+    ignores: ['**/dist/*, **/build/*'],
+  },
+  {
+    files: ['**/*.ts', '**/*.tsx'],
+  },
+  {
+    plugins: {
+      prettier: eslintPluginPrettier,
+      react: eslintPluginReact,
+      'react-refresh': reactRefresh,
+      'react-hooks': fixupPluginRules(eslintPluginReactHooks),
+    },
 
-		languageOptions: {
-			parserOptions: { ecmaFeatures: { jsx: true } },
-			globals: { ...globals.browser, Autodesk: 'readonly' },
-		},
+    // languageOptions: {
+    // 	parserOptions: { ecmaFeatures: { jsx: true } },
+    // 	globals: { ...globals.browser, Autodesk: 'readonly' },
+    // },
 
-		rules: {
-			'react-refresh/only-export-components': [
-				'warn',
-				{
-					allowConstantExport: true,
-				},
-			],
-			'@typescript-eslint/ban-ts-comment': 'off',
-			...eslintPluginReactHooks.configs.recommended.rules,
-		},
-	},
-	globalIgnores(['dist/', 'build/', '*.js', '*.cjs', '*.mjs'])
+    rules: {
+      'react-refresh/only-export-components': [
+        'warn',
+        {
+          allowConstantExport: true,
+        },
+      ],
+      'prettier/prettier': 'error',
+      '@typescript-eslint/ban-ts-comment': 'off',
+      ...eslintPluginReactHooks.configs.recommended.rules,
+    },
+  },
+  globalIgnores(['dist/', 'build/', '*.js', '*.cjs', '*.mjs'])
 );

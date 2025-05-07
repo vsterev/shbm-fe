@@ -1,22 +1,20 @@
-import React, { useEffect, useState } from "react";
-import userService from "../services/user";
-import appCookie from "../utils/appCookie";
-import AddUser from "../components/users/AddUser";
-import type {
-  AddUser as AddUserType,
-  GetUser,
-} from "../interfaces/user.interface";
-import { View, Text, Button, Table, useToggle, Checkbox } from "reshaped";
-import { Plus } from "react-feather";
-import DeleteAlert from "../components/shared/DeleteAlert";
+import React, { useEffect, useState } from 'react';
+import userService from '../services/user';
+import appCookie from '../utils/appCookie';
+import { EditUser } from '../interfaces/user.interface';
+import type { GetUser } from '../interfaces/user.interface';
+import { View, Text, Button, Table, useToggle, Checkbox } from 'reshaped';
+import { Plus } from 'react-feather';
+import DeleteAlert from '../components/shared/DeleteAlert';
+import AddUser from '../components/users/AddUser';
 
 const Users = () => {
   const [users, setUsers] = useState<GetUser[] | undefined>(undefined);
   const [toggleAddUser, setToggleAddUser] = useState<boolean>(false);
-  const [editUser, setEditUser] = useState<AddUserType>({} as AddUserType);
+  const [editUser, setEditUser] = useState<EditUser>({} as EditUser);
   const [deleteUser, setDeleteUser] = useState<GetUser | undefined>(undefined);
 
-  const token = appCookie("hbs-token");
+  const token = appCookie('hbs-token');
   // const { logOut } = useContext(UserContext)
 
   const userList = () =>
@@ -37,7 +35,7 @@ const Users = () => {
   const deleteHandler = async () => {
     // if (window.confirm("please agrre to delete user")) {
     if (!deleteUser) return;
-    if (deleteUser.email !== "vasil@solvex.bg") {
+    if (deleteUser.email !== 'vasil@solvex.bg') {
       try {
         await userService.delete({ _id: deleteUser._id }, token);
         userList();
@@ -49,7 +47,7 @@ const Users = () => {
   };
 
   const toggleAdd = () => {
-    setEditUser({} as AddUserType);
+    setEditUser({} as EditUser);
     setToggleAddUser(!toggleAddUser);
   };
 
@@ -68,13 +66,7 @@ const Users = () => {
 
   return (
     <View direction="column" align="center">
-      <View
-        direction="row"
-        justify="space-between"
-        width="90%"
-        align="center"
-        height={20}
-      >
+      <View direction="row" justify="space-between" width="90%" align="center" height={20}>
         <Text variant="featured-2">User managment</Text>
         <Button
           onClick={() => {
@@ -116,7 +108,7 @@ const Users = () => {
                       <Table.Cell>
                         <View gap={2} direction="row">
                           <Button
-                            disabled={el.email === "vasil@solvex.bg"}
+                            disabled={el.email === 'vasil@solvex.bg'}
                             onClick={() => editHandler(el)}
                             size="small"
                             color="primary"
@@ -130,7 +122,7 @@ const Users = () => {
                               setDeleteUser(el);
                               activateDelete();
                             }}
-                            disabled={el.email === "vasil@solvex.bg"}
+                            disabled={el.email === 'vasil@solvex.bg'}
                             color="critical"
                             size="small"
                             variant="outline"
@@ -162,7 +154,7 @@ const Users = () => {
           deactivate={deactivate}
           active={active}
           setUsers={setUsers}
-          setEditUser={setEditUser}
+          // setEditUser={setEditUser}
           editUser={editUser}
           action="edit"
         />

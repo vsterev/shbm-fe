@@ -1,5 +1,5 @@
-import { AddUser, EditUser, GetUser, User } from "../interfaces/user.interface";
-import { unauthorizedHandle } from "../utils/unauthorizadHandle";
+import { AddUser, EditUser, GetUser, User } from '../interfaces/user.interface';
+import { unauthorizedHandle } from '../utils/unauthorizadHandle';
 const API_URL = `${import.meta.env.VITE_BACKEND_API}`;
 
 const Users = {
@@ -7,11 +7,11 @@ const Users = {
     try {
       const res = await fetch(`${API_URL}/user/login`, {
         body: JSON.stringify(data),
-        method: "POST",
-        headers: { "Content-type": "application/json" },
+        method: 'POST',
+        headers: { 'Content-type': 'application/json' },
       });
       if (res.status === 401) {
-        return { err: "authentiction error" };
+        return { err: 'authentiction error' };
       }
       return await res.json();
     } catch (e) {
@@ -21,9 +21,9 @@ const Users = {
   verify: async (token: string): Promise<User | undefined> => {
     try {
       const res = await fetch(`${API_URL}/user/verify`, {
-        method: "GET",
+        method: 'GET',
         headers: {
-          "Content-type": "application/json",
+          'Content-type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
       });
@@ -45,9 +45,9 @@ const Users = {
   allUsers: async (token: string): Promise<GetUser[]> => {
     try {
       const res = await fetch(`${API_URL}/user/users`, {
-        method: "GET",
+        method: 'GET',
         headers: {
-          "Content-type": "application/json",
+          'Content-type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
       });
@@ -61,9 +61,9 @@ const Users = {
     try {
       const res = await fetch(`${API_URL}/user`, {
         body: JSON.stringify(data),
-        method: "DELETE",
+        method: 'DELETE',
         headers: {
-          "Content-type": "application/json",
+          'Content-type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
       });
@@ -73,13 +73,13 @@ const Users = {
       return;
     }
   },
-  register: async (data: Omit<AddUser, "repass">, token: string) => {
+  register: async (data: Omit<AddUser, 'repass'>, token: string) => {
     try {
       const res = await fetch(`${API_URL}/user`, {
         body: JSON.stringify(data),
-        method: "POST",
+        method: 'POST',
         headers: {
-          "Content-type": "application/json",
+          'Content-type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
       });
@@ -93,9 +93,9 @@ const Users = {
     try {
       const res = await fetch(`${API_URL}/user`, {
         body: JSON.stringify(user),
-        method: "PATCH",
+        method: 'PATCH',
         headers: {
-          "Content-type": "application/json",
+          'Content-type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
       });

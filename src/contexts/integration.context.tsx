@@ -1,10 +1,5 @@
 /* eslint-disable react-refresh/only-export-components */
-import React, {
-  createContext,
-  PropsWithChildren,
-  useContext,
-  useState,
-} from "react";
+import React, { createContext, PropsWithChildren, useContext, useState } from 'react';
 
 export interface Integration {
   name: string;
@@ -16,29 +11,23 @@ interface IntegrationContextType {
   integrations: Integration[];
   setIntegrations: React.Dispatch<React.SetStateAction<Integration[]>>;
   selectedIntegration: Integration | undefined;
-  setSelectedIntegration: React.Dispatch<
-    React.SetStateAction<Integration | undefined>
-  >;
+  setSelectedIntegration: React.Dispatch<React.SetStateAction<Integration | undefined>>;
 }
 
-const IntegrationContext = createContext<IntegrationContextType | undefined>(
-  undefined,
-);
+const IntegrationContext = createContext<IntegrationContextType | undefined>(undefined);
 export const useIntegrationContext = () => {
   const context = useContext(IntegrationContext);
   if (!context) {
-    throw new Error(
-      "useIntegrationContext must be used within an IntegrationProvider",
-    );
+    throw new Error('useIntegrationContext must be used within an IntegrationProvider');
   }
   return context;
 };
 
 export const IntegrationProvider = ({ children }: PropsWithChildren) => {
   const [integrations, setIntegrations] = useState<Integration[]>([]);
-  const [selectedIntegration, setSelectedIntegration] = useState<
-    Integration | undefined
-  >(undefined);
+  const [selectedIntegration, setSelectedIntegration] = useState<Integration | undefined>(
+    undefined
+  );
 
   return (
     <IntegrationContext.Provider

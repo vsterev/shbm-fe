@@ -1,10 +1,7 @@
-import React, { useEffect, useState } from "react";
-import {
-  Booking,
-  SearchBookingsParams,
-} from "../../interfaces/booking.interface";
-import SpannedRow from "./SpannedRow";
-import { View, Text, Table, Button } from "reshaped";
+import React, { useEffect, useState } from 'react';
+import { Booking, SearchBookingsParams } from '../../interfaces/booking.interface';
+import SpannedRow from './SpannedRow';
+import { View, Text, Table, Button } from 'reshaped';
 
 interface HistoryViewProps {
   bookingsArr: Booking[];
@@ -25,7 +22,7 @@ const HistoryView = ({ bookingsArr, params }: HistoryViewProps) => {
           return (el = !el);
         }
         return el;
-      }),
+      })
     );
   };
 
@@ -61,7 +58,7 @@ const HistoryView = ({ bookingsArr, params }: HistoryViewProps) => {
                       {el.hotelServices[0]?.log?.sendDate
                         ?.toString()
                         .substring(0, 16)
-                        .replace("T", " ")}
+                        .replace('T', ' ')}
                     </Table.Cell>
                     <Table.Cell>{el.action}</Table.Cell>
                     <Table.Cell>{el.hotelServices[0]?.hotel}</Table.Cell>
@@ -72,40 +69,21 @@ const HistoryView = ({ bookingsArr, params }: HistoryViewProps) => {
                         subItem="roomCategory"
                       />
                     </Table.Cell>
-                    <Table.Cell>
-                      {el.hotelServices[0].checkIn?.substring(0, 10)}
-                    </Table.Cell>
-                    <Table.Cell>
-                      {el.hotelServices[0].checkOut?.substring(0, 10)}
+                    <Table.Cell>{el.hotelServices[0].checkIn?.substring(0, 10)}</Table.Cell>
+                    <Table.Cell>{el.hotelServices[0].checkOut?.substring(0, 10)}</Table.Cell>
+                    <Table.Cell verticalAlign="center">
+                      <SpannedRow hotelServices={el.hotelServices} item="roomAccommodation" />
                     </Table.Cell>
                     <Table.Cell verticalAlign="center">
-                      <SpannedRow
-                        hotelServices={el.hotelServices}
-                        item="roomAccommodation"
-                      />
+                      <SpannedRow hotelServices={el.hotelServices} item="confirmationNumber" />
                     </Table.Cell>
                     <Table.Cell verticalAlign="center">
-                      <SpannedRow
-                        hotelServices={el.hotelServices}
-                        item="confirmationNumber"
-                      />
+                      <SpannedRow hotelServices={el.hotelServices} item="tourists" />
                     </Table.Cell>
-                    <Table.Cell verticalAlign="center">
-                      <SpannedRow
-                        hotelServices={el.hotelServices}
-                        item="tourists"
-                      />
-                    </Table.Cell>
+                    <Table.Cell>{el.creationDate?.substring(0, 16).replace('T', ' ')}</Table.Cell>
                     <Table.Cell>
-                      {el.creationDate?.substring(0, 16).replace("T", " ")}
-                    </Table.Cell>
-                    <Table.Cell>
-                      <Button
-                        size="small"
-                        variant="ghost"
-                        onClick={() => toggleView(i)}
-                      >
-                        {toggleArr[i] === false ? "view" : "hide"}
+                      <Button size="small" variant="ghost" onClick={() => toggleView(i)}>
+                        {toggleArr[i] === false ? 'view' : 'hide'}
                       </Button>
                     </Table.Cell>
                   </Table.Row>
@@ -117,18 +95,15 @@ const HistoryView = ({ bookingsArr, params }: HistoryViewProps) => {
                             <h4>integration log:</h4>
                             {el.hotelServices.map((hts, index) => {
                               return (
-                                <div
-                                  key={index}
-                                  style={{ marginBottom: "10px" }}
-                                >
+                                <div key={index} style={{ marginBottom: '10px' }}>
                                   <h5>Room {index + 1}:</h5>
                                   <pre
                                     style={{
-                                      whiteSpace: "pre-wrap",
-                                      textAlign: "left",
+                                      whiteSpace: 'pre-wrap',
+                                      textAlign: 'left',
                                       // backgroundColor: '#f9f9f9',
-                                      padding: "10px",
-                                      borderRadius: "5px",
+                                      padding: '10px',
+                                      borderRadius: '5px',
                                       // border: '1px solid #ddd',
                                     }}
                                   >

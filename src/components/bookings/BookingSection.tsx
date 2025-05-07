@@ -1,5 +1,5 @@
-import { Button, Checkbox, Loader, Text, View } from "reshaped";
-import { Booking } from "../../interfaces/booking.interface";
+import { Button, Checkbox, Loader, Text, View } from 'reshaped';
+import { Booking } from '../../interfaces/booking.interface';
 
 const BookingSection = ({
   title,
@@ -16,7 +16,7 @@ const BookingSection = ({
   loading: boolean;
   arr: boolean[];
   onChange: (index: number) => void;
-  onSelectAll: (action: "select" | "deselect") => void;
+  onSelectAll: (action: 'select' | 'deselect') => void;
   onSubmit: () => void;
   isDisabled: boolean;
 }) => {
@@ -29,7 +29,7 @@ const BookingSection = ({
             <Button
               variant="outline"
               color="primary"
-              onClick={() => onSelectAll("select")}
+              onClick={() => onSelectAll('select')}
               size="small"
             >
               select all
@@ -37,7 +37,7 @@ const BookingSection = ({
             <Button
               variant="outline"
               color="primary"
-              onClick={() => onSelectAll("deselect")}
+              onClick={() => onSelectAll('deselect')}
               size="small"
             >
               deselect all
@@ -54,12 +54,11 @@ const BookingSection = ({
                 onChange={() => onChange(index)}
                 name="checkbox"
               />
-              <b>{" " + el.bookingName}</b>, {el.hotelServices[0].hotel},{" "}
-              {el.hotelServices[0].checkIn.substring(0, 10)},{" "}
+              <b>{' ' + el.bookingName}</b>, {el.hotelServices[0].hotel},{' '}
+              {el.hotelServices[0].checkIn.substring(0, 10)},{' '}
               {el.hotelServices[0].checkOut.substring(0, 10)},
-              {el.hotelServices[0].roomAccommodation},{" "}
-              {el.hotelServices[0].roomType}-{el.hotelServices[0].roomCategory},{" "}
-              {el.hotelServices[0].pansion}
+              {el.hotelServices[0].roomAccommodation}, {el.hotelServices[0].roomType}-
+              {el.hotelServices[0].roomCategory}, {el.hotelServices[0].pansion}
             </View>
           ))
         )}
@@ -76,7 +75,7 @@ const BookingSection = ({
             </Button>
           </View>
         ) : (
-          "0 bookings"
+          '0 bookings'
         )}
       </View>
     </View>

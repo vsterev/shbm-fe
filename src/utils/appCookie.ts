@@ -1,8 +1,8 @@
 const appCookie = (cookieName: string) => {
   const allCookies = document.cookie
-    .split("; ")
+    .split('; ')
     .reduce((acc: { [key: string]: string }, cookie) => {
-      const [cookieName, cookieValue] = cookie.split("=");
+      const [cookieName, cookieValue] = cookie.split('=');
       acc[cookieName] = cookieValue;
       return acc;
     }, {});

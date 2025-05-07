@@ -1,5 +1,5 @@
-import { Zap } from "react-feather";
-import { Alert, Button, Modal, View } from "reshaped";
+import { Zap } from 'react-feather';
+import { Alert, Button, Modal, View } from 'reshaped';
 
 interface DeleteAlertProps {
   deactivate: () => void;

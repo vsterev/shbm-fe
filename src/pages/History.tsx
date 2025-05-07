@@ -1,9 +1,9 @@
-import { useState } from "react";
-import SearchForm from "../components/history/SearchForm";
-import HistoryView from "../components/history/View";
-import { Helmet } from "react-helmet-async";
-import { Booking, SearchBookingsParams } from "../interfaces/booking.interface";
-import { View, Text, Pagination } from "reshaped";
+import { useState } from 'react';
+import SearchForm from '../components/history/SearchForm';
+import HistoryView from '../components/history/View';
+import { Helmet } from 'react-helmet-async';
+import { Booking, SearchBookingsParams } from '../interfaces/booking.interface';
+import { View, Text, Pagination } from 'reshaped';
 
 const History = () => {
   const [bookingsArr, setBookingsArr] = useState<Booking[]>([]);
@@ -12,9 +12,9 @@ const History = () => {
   const rowsPerPage = 10;
 
   const [params, setParams] = useState<SearchBookingsParams>({
-    booking: "",
-    dateFrom: "",
-    dateTo: "",
+    booking: '',
+    dateFrom: '',
+    dateTo: '',
     limit: rowsPerPage,
     skip: 0,
     isCreateDate: true,
@@ -40,9 +40,7 @@ const History = () => {
             previousAriaLabel="Previous page"
             nextAriaLabel="Next page"
             pageAriaLabel={(args) => `Page ${args.page}`}
-            onChange={(args) =>
-              setParams({ ...params, skip: args.page * rowsPerPage })
-            }
+            onChange={(args) => setParams({ ...params, skip: args.page * rowsPerPage })}
           />
         </View>
       )}

@@ -1,10 +1,10 @@
-import { Dispatch, SetStateAction, useEffect } from "react";
-import appCookie from "../../utils/appCookie";
+import { Dispatch, SetStateAction, useEffect } from 'react';
+import appCookie from '../../utils/appCookie';
 // import UserContext from '../../utils/userContext';
-import { HotelInterlook } from "../../interfaces/hotel.interface";
-import HotelService from "../../services/hotel";
-import { useIntegrationContext } from "../../contexts/integration.context";
-import { FormControl, Loader, Select, View } from "reshaped";
+import { HotelInterlook } from '../../interfaces/hotel.interface';
+import HotelService from '../../services/hotel';
+import { useIntegrationContext } from '../../contexts/integration.context';
+import { FormControl, Loader, Select, View } from 'reshaped';
 
 interface HotelSelectProps {
   selectedHotelId: number | undefined;
@@ -13,11 +13,7 @@ interface HotelSelectProps {
   setMappedHotels: Dispatch<SetStateAction<HotelInterlook[]>>;
 }
 
-function HotelSelect({
-  setSelectedHotelId,
-  mappedHotels,
-  setMappedHotels,
-}: HotelSelectProps) {
+function HotelSelect({ setSelectedHotelId, mappedHotels, setMappedHotels }: HotelSelectProps) {
   // const { logOut } = useContext(UserContext)
   const { selectedIntegration } = useIntegrationContext();
 
@@ -26,7 +22,7 @@ function HotelSelect({
       return;
     }
     setSelectedHotelId(undefined);
-    const token = appCookie("hbs-token");
+    const token = appCookie('hbs-token');
     return HotelService.getMapped(token, selectedIntegration.name)
       .then((hotels) => {
         // if (hotels.msg) {
@@ -34,7 +30,7 @@ function HotelSelect({
         // }
         setMappedHotels(hotels);
       })
-      .catch(() => console.log("Error fetching mapped hotels!"));
+      .catch(() => console.log('Error fetching mapped hotels!'));
   };
 
   useEffect(() => {
