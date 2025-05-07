@@ -1,6 +1,6 @@
 export const unauthorizedHandle = async (res: Response) => {
   if (res.status === 401) {
-    window.location.href = "/login";
+    window.location.href = '/login';
     return [];
   }
   if (!res.ok) {

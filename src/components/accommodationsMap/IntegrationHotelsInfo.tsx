@@ -1,21 +1,18 @@
-import { useState, useEffect } from "react";
-import appCookie from "../../utils/appCookie";
-import { HotelInterlook } from "../../interfaces/hotel.interface";
-import { useIntegrationContext } from "../../contexts/integration.context";
-import IntegrationService from "../../services/integration";
-import { View, Text, Loader, Card } from "reshaped";
-import IntegrationAlert from "../shared/integrationAlert";
+import { useState, useEffect } from 'react';
+import appCookie from '../../utils/appCookie';
+import { HotelInterlook } from '../../interfaces/hotel.interface';
+import { useIntegrationContext } from '../../contexts/integration.context';
+import IntegrationService from '../../services/integration';
+import { View, Text, Loader, Card } from 'reshaped';
+import IntegrationAlert from '../shared/integrationAlert';
 
 interface HotelParserInfoProps {
   selectedHotelId: number | undefined;
   mappedHotels: HotelInterlook[];
 }
 
-const IntegrationHotelsInfo = ({
-  selectedHotelId,
-  mappedHotels,
-}: HotelParserInfoProps) => {
-  const token = appCookie("hbs-token");
+const IntegrationHotelsInfo = ({ selectedHotelId, mappedHotels }: HotelParserInfoProps) => {
+  const token = appCookie('hbs-token');
   const [integrationHotelProperties, setIntegrationHotelProperties] = useState<
     { rooms: string[]; boards: string[] } | undefined
   >(undefined);
@@ -29,18 +26,10 @@ const IntegrationHotelsInfo = ({
     setIntegrationHotelProperties(undefined);
 
     if (selectedHotelId) {
-      const integrationHotels = mappedHotels?.find(
-        (el) => el._id === selectedHotelId,
-      );
-      const integrationHotelCode = Number(
-        integrationHotels?.integrationSettings?.hotelCode,
-      );
+      const integrationHotels = mappedHotels?.find((el) => el._id === selectedHotelId);
+      const integrationHotelCode = Number(integrationHotels?.integrationSettings?.hotelCode);
 
-      IntegrationService.getAccommodations(
-        integrationHotelCode,
-        selectedIntegration.name,
-        token,
-      )
+      IntegrationService.getAccommodations(integrationHotelCode, selectedIntegration.name, token)
         .then((r) => {
           if (!r) {
             return;
@@ -85,15 +74,7 @@ const IntegrationHotelsInfo = ({
       <View direction="row" gap={2} wrap>
         {!!integrationHotelProperties &&
           integrationHotelProperties.rooms?.map((el, i) => {
-            return (
-              <input
-                type="text"
-                key={i}
-                value={el || ""}
-                disabled
-                style={{ width: "23%" }}
-              />
-            );
+            return <input type="text" key={i} value={el || ''} disabled style={{ width: '23%' }} />;
           })}
       </View>
     </Card>

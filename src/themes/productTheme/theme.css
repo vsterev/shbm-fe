@@ -1,8 +1,8 @@
-[data-rs-theme="productTheme"] {
-  --rs-font-family-title: Inter, BlinkMacSystemFont, -apple-system, Roboto,
-    Helvetica, Arial, sans-serif;
-  --rs-font-family-body: Inter, BlinkMacSystemFont, -apple-system, Roboto,
-    Helvetica, Arial, sans-serif;
+[data-rs-theme='productTheme'] {
+  --rs-font-family-title: Inter, BlinkMacSystemFont, -apple-system, Roboto, Helvetica, Arial,
+    sans-serif;
+  --rs-font-family-body: Inter, BlinkMacSystemFont, -apple-system, Roboto, Helvetica, Arial,
+    sans-serif;
   --rs-font-weight-regular: 400;
   --rs-font-weight-medium: 500;
   --rs-font-weight-semibold: 600;
@@ -102,16 +102,14 @@
   --rs-easing-standard: cubic-bezier(0.4, 0, 0.2, 1);
   --rs-easing-accelerate: cubic-bezier(0.4, 0, 1, 1);
   --rs-easing-decelerate: cubic-bezier(0, 0, 0.2, 1);
-  --rs-shadow-raised: 0px 1px 5px -4px rgba(0, 0, 0, 0.5),
-    0px 4px 8px 0px rgba(0, 0, 0, 0.05);
-  --rs-shadow-overlay: 0px 5px 10px 0px rgba(0, 0, 0, 0.05),
-    0px 15px 25px 0px rgba(0, 0, 0, 0.07);
+  --rs-shadow-raised: 0px 1px 5px -4px rgba(0, 0, 0, 0.5), 0px 4px 8px 0px rgba(0, 0, 0, 0.05);
+  --rs-shadow-overlay: 0px 5px 10px 0px rgba(0, 0, 0, 0.05), 0px 15px 25px 0px rgba(0, 0, 0, 0.07);
   --rs-viewport-m-min: 660;
   --rs-viewport-l-min: 900;
   --rs-viewport-xl-min: 1280;
 }
 
-[data-rs-theme="productTheme"][data-rs-color-mode="light"] {
+[data-rs-theme='productTheme'][data-rs-color-mode='light'] {
   --rs-color-background-primary: #5a58f2;
   --rs-color-background-primary-faded: #ecebfe;
   --rs-color-border-primary: #3b38ed;
@@ -167,7 +165,7 @@
   --rs-color-rgb-background-page-faded: 249, 249, 251;
 }
 
-[data-rs-theme="productTheme"][data-rs-color-mode="dark"] {
+[data-rs-theme='productTheme'][data-rs-color-mode='dark'] {
   --rs-color-background-primary: #524fea;
   --rs-color-background-primary-faded: #252544;
   --rs-color-border-primary: #8c8bf3;

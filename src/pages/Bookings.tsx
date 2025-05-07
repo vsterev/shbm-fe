@@ -1,13 +1,13 @@
-import { useEffect, useState } from "react";
-import { Helmet } from "react-helmet-async";
-import BookingService from "../services/booking";
-import appCookie from "../utils/appCookie";
-import { Booking } from "../interfaces/booking.interface";
-import { useIntegrationContext } from "../contexts/integration.context";
-import { Button, Text, View } from "reshaped";
-import { RefreshCw } from "react-feather";
-import BookingSection from "../components/bookings/BookingSection";
-import useToastService from "../utils/toastService";
+import { useEffect, useState } from 'react';
+import { Helmet } from 'react-helmet-async';
+import BookingService from '../services/booking';
+import appCookie from '../utils/appCookie';
+import { Booking } from '../interfaces/booking.interface';
+import { useIntegrationContext } from '../contexts/integration.context';
+import { Button, Text, View } from 'reshaped';
+import { RefreshCw } from 'react-feather';
+import BookingSection from '../components/bookings/BookingSection';
+import useToastService from '../utils/toastService';
 
 interface ResultSendBookings {
   errors: number;
@@ -31,7 +31,9 @@ const GetBookings = () => {
     change: false,
     cancel: false,
   });
-  const token = appCookie("hbs-token");
+
+  const token = appCookie('hbs-token');
+
   const { selectedIntegration } = useIntegrationContext();
 
   const toast = useToastService();
@@ -43,14 +45,14 @@ const GetBookings = () => {
       status: string,
       setBookings: (bookings: Booking[]) => void,
       setArr: (arr: boolean[]) => void,
-      type: keyof typeof loading,
+      type: keyof typeof loading
     ) => {
       setLoading((prev) => ({ ...prev, [type]: true }));
       try {
         const rs = await BookingService.get(
           { status, next: false },
           token,
-          selectedIntegration.name,
+          selectedIntegration.name
         );
         if (Array.isArray(rs) && rs.length === 0) {
           toast.info(`No ${status} bookings`);
@@ -62,13 +64,13 @@ const GetBookings = () => {
       }
     };
 
-    fetchBookings("new", setNewBookings, setNewArr, "new");
-    fetchBookings("change", setChangedBookings, setChangeArr, "change");
-    fetchBookings("cancel", setCancelBookings, setCancelArr, "cancel");
+    fetchBookings('new', setNewBookings, setNewArr, 'new');
+    fetchBookings('change', setChangedBookings, setChangeArr, 'change');
+    fetchBookings('cancel', setCancelBookings, setCancelArr, 'cancel');
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [refresh, selectedIntegration, token]);
 
-  const changeHandler = (index: number, type: "new" | "change" | "cancel") => {
+  const changeHandler = (index: number, type: 'new' | 'change' | 'cancel') => {
     if (isDisabled) setIsDisabled(false);
     const setArr = {
       new: setNewArr,
@@ -79,10 +81,7 @@ const GetBookings = () => {
     setArr(arr.map((el, i) => (i === index ? !el : el)));
   };
 
-  const selectAll = (
-    action: "select" | "deselect",
-    type: "new" | "change" | "cancel",
-  ) => {
+  const selectAll = (action: 'select' | 'deselect', type: 'new' | 'change' | 'cancel') => {
     if (isDisabled) setIsDisabled(false);
     const setArr = {
       new: setNewArr,
@@ -90,12 +89,12 @@ const GetBookings = () => {
       cancel: setCancelArr,
     }[type];
     const arr = { new: newArr, change: changeArr, cancel: cancelArr }[type];
-    setArr(arr.map(() => action === "select"));
+    setArr(arr.map(() => action === 'select'));
   };
 
-  const submitHandler = async (type: "new" | "change" | "cancel") => {
+  const submitHandler = async (type: 'new' | 'change' | 'cancel') => {
     if (!selectedIntegration) {
-      toast.error("Please select an integration");
+      toast.error('Please select an integration');
       return;
     }
 
@@ -111,22 +110,15 @@ const GetBookings = () => {
       .filter((booking): booking is Booking => booking !== null);
 
     try {
-      const rs = await BookingService.send(
-        sendArr,
-        token,
-        selectedIntegration.name,
-        type,
-      );
+      const rs = await BookingService.send(sendArr, token, selectedIntegration.name, type);
       const { errors, sended, confirmed, cancelled } = rs as ResultSendBookings;
 
       if (errors) {
         toast.error(
-          `Error: ${errors} bookings not sent, ${rs.notConfirmed} bookings not confirmed`,
+          `Error: ${errors} bookings not sent, ${rs.notConfirmed} bookings not confirmed`
         );
       }
-      toast.info(
-        `Sent: ${sended}, confirmed: ${confirmed}, cancelled: ${cancelled}`,
-      );
+      toast.info(`Sent: ${sended}, confirmed: ${confirmed}, cancelled: ${cancelled}`);
     } catch (err) {
       if (err instanceof Error) toast.error(err.message);
       console.error(err);
@@ -136,9 +128,7 @@ const GetBookings = () => {
   };
 
   if (!selectedIntegration) {
-    return (
-      <h2 style={{ textAlign: "center" }}>please select an integration</h2>
-    );
+    return <h2 style={{ textAlign: 'center' }}>please select an integration</h2>;
   }
 
   return (
@@ -163,9 +153,9 @@ const GetBookings = () => {
           bookings={newBookings}
           loading={loading.new}
           arr={newArr}
-          onChange={(index) => changeHandler(index, "new")}
-          onSelectAll={(action) => selectAll(action, "new")}
-          onSubmit={() => submitHandler("new")}
+          onChange={(index) => changeHandler(index, 'new')}
+          onSelectAll={(action) => selectAll(action, 'new')}
+          onSubmit={() => submitHandler('new')}
           isDisabled={isDisabled}
         />
         <BookingSection
@@ -173,9 +163,9 @@ const GetBookings = () => {
           bookings={changedBookings}
           loading={loading.change}
           arr={changeArr}
-          onChange={(index) => changeHandler(index, "change")}
-          onSelectAll={(action) => selectAll(action, "change")}
-          onSubmit={() => submitHandler("change")}
+          onChange={(index) => changeHandler(index, 'change')}
+          onSelectAll={(action) => selectAll(action, 'change')}
+          onSubmit={() => submitHandler('change')}
           isDisabled={isDisabled}
         />
         <BookingSection
@@ -183,9 +173,9 @@ const GetBookings = () => {
           bookings={cancelBookings}
           loading={loading.cancel}
           arr={cancelArr}
-          onChange={(index) => changeHandler(index, "cancel")}
-          onSelectAll={(action) => selectAll(action, "cancel")}
-          onSubmit={() => submitHandler("cancel")}
+          onChange={(index) => changeHandler(index, 'cancel')}
+          onSelectAll={(action) => selectAll(action, 'cancel')}
+          onSubmit={() => submitHandler('cancel')}
           isDisabled={isDisabled}
         />
       </View>

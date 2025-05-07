@@ -1,23 +1,19 @@
-import {
-  Board,
-  AccommodationMapping,
-  Room,
-} from "../interfaces/hotel.interface";
+import { Board, AccommodationMapping, Room } from '../interfaces/hotel.interface';
 const API_URL = `${import.meta.env.VITE_BACKEND_API}`;
 
 const AccommodationService = {
   get: async (
     data: { ilCode: number; integrationName: string },
-    token: string,
+    token: string
   ): Promise<AccommodationMapping | { error: string }> => {
     const searchParams = new URLSearchParams({
       ilCode: data.ilCode.toString(),
       integrationName: data.integrationName,
     });
     const response = await fetch(`${API_URL}/accommodations?${searchParams}`, {
-      method: "GET",
+      method: 'GET',
       headers: {
-        "Content-type": "application/json",
+        'Content-type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
     });
@@ -32,14 +28,14 @@ const AccommodationService = {
       checkOut: string;
       integrationName: string;
     },
-    token: string,
+    token: string
   ): Promise<{ error: string } | undefined> => {
     try {
       const response = await fetch(`${API_URL}/accommodations/`, {
         body: JSON.stringify(data),
-        method: "POST",
+        method: 'POST',
         headers: {
-          "Content-type": "application/json",
+          'Content-type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
       });
@@ -58,14 +54,14 @@ const AccommodationService = {
       hotelId: number;
       integrationName: string;
     },
-    token: string,
+    token: string
   ): Promise<AccommodationMapping> => {
     try {
       const response = await fetch(`${API_URL}/accommodations/`, {
         body: JSON.stringify(data),
-        method: "PATCH",
+        method: 'PATCH',
         headers: {
-          "Content-type": "application/json",
+          'Content-type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
       });
@@ -79,9 +75,9 @@ const AccommodationService = {
   delete: async (id: number, token: string): Promise<void> => {
     try {
       await fetch(`${API_URL}/accommodations/${id}/`, {
-        method: "DELETE",
+        method: 'DELETE',
         headers: {
-          "Content-type": "application/json",
+          'Content-type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
       });

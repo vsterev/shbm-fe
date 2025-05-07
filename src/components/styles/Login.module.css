@@ -1,7 +1,7 @@
-@import url("https://fonts.googleapis.com/css?family=Lato:400,700");
+@import url('https://fonts.googleapis.com/css?family=Lato:400,700');
 
 .bg {
-  background-image: url("../../images/background.jpg");
+  background-image: url('../../images/background.jpg');
   position: fixed;
   left: 0;
   top: 0;
@@ -30,7 +30,7 @@
 }
 
 .loginWrap {
-  font-family: "Lato", sans-serif;
+  font-family: 'Lato', sans-serif;
   color: #4a4a4a;
   display: flex;
   flex-direction: column;
@@ -53,21 +53,21 @@ form .formField::before {
   left: 15px;
   top: 17px;
   color: #888888;
-  content: " ";
+  content: ' ';
   display: block;
   background-size: cover;
   background-repeat: no-repeat;
 }
 
 form .formField:nth-child(1)::before {
-  background-image: url("../../images/user-icon.png");
+  background-image: url('../../images/user-icon.png');
   width: 20px;
   height: 20px;
   top: 15px;
 }
 
 form .formField:nth-child(2)::before {
-  background-image: url("../../images/lock-icon.png");
+  background-image: url('../../images/lock-icon.png');
   width: 16px;
   height: 16px;
 }

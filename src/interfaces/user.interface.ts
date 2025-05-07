@@ -7,6 +7,7 @@ export interface AddUser {
 }
 
 export interface EditUser {
+  _id: string;
   isAdmin: boolean;
   name?: string;
   email?: string;

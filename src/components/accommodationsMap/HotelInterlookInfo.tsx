@@ -1,30 +1,23 @@
-import React, { useState, useEffect, useMemo } from "react";
-import HotelCreateVariant from "./HotelCreateVariant";
-import appCookie from "../../utils/appCookie";
-import { AccommodationMapping } from "../../interfaces/hotel.interface";
-import { useIntegrationContext } from "../../contexts/integration.context";
-import AccommodationService from "../../services/accommodation";
-import {
-  View,
-  Text,
-  TextField,
-  Button,
-  Card,
-  useToggle,
-  Loader,
-} from "reshaped";
-import DeleteAlert from "../shared/DeleteAlert";
-import useToastService from "../../utils/toastService";
+import React, { useState, useEffect, useMemo } from 'react';
+import HotelCreateVariant from './HotelCreateVariant';
+import appCookie from '../../utils/appCookie';
+import { AccommodationMapping } from '../../interfaces/hotel.interface';
+import { useIntegrationContext } from '../../contexts/integration.context';
+import AccommodationService from '../../services/accommodation';
+import { View, Text, TextField, Button, Card, useToggle, Loader } from 'reshaped';
+import DeleteAlert from '../shared/DeleteAlert';
+import useToastService from '../../utils/toastService';
 
 interface HotelInfoProps {
   selectedHotelId: number | undefined;
 }
 
 const HotelInfo = ({ selectedHotelId }: HotelInfoProps) => {
-  const token = appCookie("hbs-token");
+  const token = appCookie('hbs-token');
 
-  const [accommodationsMap, setAccommodationsMap] =
-    useState<AccommodationMapping>({} as AccommodationMapping);
+  const [accommodationsMap, setAccommodationsMap] = useState<AccommodationMapping>(
+    {} as AccommodationMapping
+  );
   const [refresh, setRefresh] = useState<boolean>(false);
 
   const { selectedIntegration } = useIntegrationContext();
@@ -41,10 +34,10 @@ const HotelInfo = ({ selectedHotelId }: HotelInfoProps) => {
     setAccommodationsMap({} as AccommodationMapping);
     AccommodationService.get(
       { ilCode: selectedHotelId, integrationName: selectedIntegration.name },
-      token,
+      token
     )
       .then((r) => {
-        if ("error" in r) {
+        if ('error' in r) {
           return;
         }
         setAccommodationsMap(r);
@@ -62,14 +55,14 @@ const HotelInfo = ({ selectedHotelId }: HotelInfoProps) => {
       value: string;
       event?: React.ChangeEvent<HTMLInputElement> | undefined;
     },
-    el: number | string,
+    el: number | string
   ) => {
     if (!selectedIntegration) {
       return;
     }
     const { name, value } = e;
-    const typedName = name as "rooms" | "boards";
-    const index = name === "boards" ? Number(el) : String(el);
+    const typedName = name as 'rooms' | 'boards';
+    const index = name === 'boards' ? Number(el) : String(el);
 
     // Create a copy of the accommodationsMap for the specific type (boards or rooms)
     const temp = { ...accommodationsMap[typedName] };
@@ -97,20 +90,18 @@ const HotelInfo = ({ selectedHotelId }: HotelInfoProps) => {
         rooms: accommodationsMap.rooms,
         integrationName: selectedIntegration.name,
       },
-      token,
+      token
     )
       .then(() => {
-        toast.success("Mapping was saved");
+        toast.success('Mapping was saved');
       })
       .catch((error) => console.log(error));
   };
 
   const deleteHandler = async () => {
-    await AccommodationService.delete(accommodationsMap?._id, token).then(
-      () => {
-        setAccommodationsMap(() => ({}) as AccommodationMapping);
-      },
-    );
+    await AccommodationService.delete(accommodationsMap?._id, token).then(() => {
+      setAccommodationsMap(() => ({}) as AccommodationMapping);
+    });
   };
 
   const activateCreateVariants = useMemo(() => {
@@ -148,54 +139,29 @@ const HotelInfo = ({ selectedHotelId }: HotelInfoProps) => {
         </Text>
       </View>
       {activateCreateVariants ? (
-        <HotelCreateVariant
-          selectedHotelId={selectedHotelId}
-          setRefresh={setRefresh}
-        />
+        <HotelCreateVariant selectedHotelId={selectedHotelId} setRefresh={setRefresh} />
       ) : (
         <View gap={2}>
           <form onSubmit={submitHandler}>
-            <View
-              direction="row"
-              width="60%"
-              align="start"
-              justify="space-between"
-            >
+            <View direction="row" width="60%" align="start" justify="space-between">
               <View gap={2}>
                 <Text variant="body-3">boards:</Text>
                 {accommodationsMap?.boards &&
-                  Object.keys(accommodationsMap?.boards).map(
-                    (boardCode: string) => {
-                      return (
-                        <View
-                          key={boardCode}
-                          gap={3}
-                          direction="row"
-                          align="center"
-                        >
-                          <Text variant="body-3">
-                            {
-                              accommodationsMap?.boards[Number(boardCode)]
-                                ?.boardId
-                            }
-                            ,{" "}
-                            {
-                              accommodationsMap?.boards[Number(boardCode)]
-                                ?.boardName
-                            }{" "}
-                          </Text>
-                          <TextField
-                            value={
-                              accommodationsMap?.boards[Number(boardCode)]
-                                .integrationCode || ""
-                            }
-                            name="boards"
-                            onChange={(e) => changeHandler(e, boardCode)}
-                          />
-                        </View>
-                      );
-                    },
-                  )}
+                  Object.keys(accommodationsMap?.boards).map((boardCode: string) => {
+                    return (
+                      <View key={boardCode} gap={3} direction="row" align="center">
+                        <Text variant="body-3">
+                          {accommodationsMap?.boards[Number(boardCode)]?.boardId},{' '}
+                          {accommodationsMap?.boards[Number(boardCode)]?.boardName}{' '}
+                        </Text>
+                        <TextField
+                          value={accommodationsMap?.boards[Number(boardCode)].integrationCode || ''}
+                          name="boards"
+                          onChange={(e) => changeHandler(e, boardCode)}
+                        />
+                      </View>
+                    );
+                  })}
               </View>
               <View gap={2}>
                 <Text variant="body-3">rooms:</Text>
@@ -204,7 +170,7 @@ const HotelInfo = ({ selectedHotelId }: HotelInfoProps) => {
                     return (
                       <View key={el} gap={3} direction="row" align="center">
                         <Text variant="body-3">
-                          {el}, {accommodationsMap.rooms[el].roomTypeName}{" "}
+                          {el}, {accommodationsMap.rooms[el].roomTypeName}{' '}
                           {accommodationsMap.rooms[el].roomCategoryName}
                         </Text>
                         <View width={90}>

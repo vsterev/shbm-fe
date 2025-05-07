@@ -1,17 +1,15 @@
-import { useState } from "react";
-import IntegrationHotelsInfo from "../components/accommodationsMap/IntegrationHotelsInfo";
-import HotelInterlookInfo from "../components/accommodationsMap/HotelInterlookInfo";
-import HotelSelect from "../components/accommodationsMap/HotelSelect";
-import { Helmet } from "react-helmet-async";
-import { HotelInterlook } from "../interfaces/hotel.interface";
-import { useIntegrationContext } from "../contexts/integration.context";
-import IntegrationAlert from "../components/shared/integrationAlert";
-import { View, Text } from "reshaped";
+import { useState } from 'react';
+import IntegrationHotelsInfo from '../components/accommodationsMap/IntegrationHotelsInfo';
+import HotelInterlookInfo from '../components/accommodationsMap/HotelInterlookInfo';
+import HotelSelect from '../components/accommodationsMap/HotelSelect';
+import { Helmet } from 'react-helmet-async';
+import { HotelInterlook } from '../interfaces/hotel.interface';
+import { useIntegrationContext } from '../contexts/integration.context';
+import IntegrationAlert from '../components/shared/integrationAlert';
+import { View, Text } from 'reshaped';
 
 const HotelPropertiesMap = () => {
-  const [selectedHotelId, setSelectedHotelId] = useState<number | undefined>(
-    undefined,
-  );
+  const [selectedHotelId, setSelectedHotelId] = useState<number | undefined>(undefined);
   const [mappedHotels, setMappedHotels] = useState<HotelInterlook[]>([]);
   const { selectedIntegration } = useIntegrationContext();
 
@@ -36,10 +34,7 @@ const HotelPropertiesMap = () => {
         mappedHotels={mappedHotels}
         setMappedHotels={setMappedHotels}
       />
-      <IntegrationHotelsInfo
-        selectedHotelId={selectedHotelId}
-        mappedHotels={mappedHotels}
-      />
+      <IntegrationHotelsInfo selectedHotelId={selectedHotelId} mappedHotels={mappedHotels} />
       <HotelInterlookInfo selectedHotelId={selectedHotelId} />
     </View>
   );

@@ -17,13 +17,16 @@ This is the frontend application for the **Solvex Hotel Booking Manager**, built
 
 - **Framework:** React (with Hooks)
 - **Tooling:** Vite
-- **Design System:** Reshaped
+- **UI/Design System:** Reshaped UI
 - **Routing:** React Router v6+
 - **Auth:** JWT tokens (via backend)
-- **CI/CD:** GitHub Actions (optional)
+- **Validation: Zod**
+- **Forms: React Hook Form**
+- **CI/CD:** GitHub Actions with hosted runners
 - **Deployment:** PM2+
 
 ---
+
 ## 💅 Design System
 
 This project implements the Reshaped design system to ensure consistent, accessible, and responsive UI components. Reshaped provides a set of ready-to-use primitives like View, Text, Button, and layout utilities that help enforce design standards across the frontend.
@@ -31,6 +34,25 @@ This project implements the Reshaped design system to ensure consistent, accessi
 Using spacing tokens, and predefined color themes (like primary, neutral, warning, etc.), the UI adapts seamlessly across breakpoints. This promotes design consistency and reduces custom CSS or styling logic.
 
 All components follow the Reshaped conventions and should be used with provided props to leverage its responsive and theme-aware features
+
+## ✅ Form Handling and Validation
+
+This project uses React Hook Form in combination with Zod to manage and validate forms in a type-safe and scalable way.
+
+🧩 Why React Hook Form?
+React Hook Form provides:
+
+- Minimal re-renders
+- Built-in performance optimizations
+- Easy integration with custom UI components
+- Great developer experience with TypeScript
+
+🛡️ Why Zod?
+Zod is a TypeScript-first schema declaration and validation library that enables:
+
+- Schema-based validation
+- Easy integration with React Hook Form through zodResolver
+- Strong type inference and safety
 
 ## ✅ Prerequisites
 

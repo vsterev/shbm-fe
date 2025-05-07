@@ -1,23 +1,17 @@
-import { useEffect } from "react";
-import { useIntegrationContext } from "../contexts/integration.context";
-import appCookie from "../utils/appCookie";
-import IntegrationService from "../services/integration";
-import { FormControl, Select, View } from "reshaped";
+import { useEffect } from 'react';
+import { useIntegrationContext } from '../contexts/integration.context';
+import appCookie from '../utils/appCookie';
+import IntegrationService from '../services/integration';
+import { FormControl, Select, View } from 'reshaped';
 
 const IntegrationSelector = () => {
-  const {
-    integrations,
-    setIntegrations,
-    selectedIntegration,
-    setSelectedIntegration,
-  } = useIntegrationContext();
+  const { integrations, setIntegrations, selectedIntegration, setSelectedIntegration } =
+    useIntegrationContext();
 
-  const token = appCookie("hbs-token");
+  const token = appCookie('hbs-token');
 
   useEffect(() => {
-    IntegrationService.getIntegrations(token).then((data) =>
-      setIntegrations(data),
-    );
+    IntegrationService.getIntegrations(token).then((data) => setIntegrations(data));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token]);
 
@@ -31,9 +25,7 @@ const IntegrationSelector = () => {
             placeholder="Select an integration"
             value={selectedIntegration?.name}
             onChange={(e) => {
-              const selectedIntegration = integrations.find(
-                (i) => i.name === e.value,
-              );
+              const selectedIntegration = integrations.find((i) => i.name === e.value);
               setSelectedIntegration(selectedIntegration);
             }}
             options={integrations.map((integration) => ({
