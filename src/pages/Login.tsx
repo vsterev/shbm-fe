@@ -70,7 +70,7 @@ const UserLogin = () => {
         overflow="hidden"
       >
         <Image
-          src="/public/images/background.jpg"
+          src="/images/background.jpg"
           attributes={{
             style: {
               filter: 'blur(3px)',
