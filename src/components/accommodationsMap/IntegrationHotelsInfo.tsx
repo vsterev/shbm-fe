@@ -27,9 +27,9 @@ const IntegrationHotelsInfo = ({ selectedHotelId, mappedHotels }: HotelParserInf
 
     if (selectedHotelId) {
       const integrationHotels = mappedHotels?.find((el) => el._id === selectedHotelId);
-      const integrationHotelCode = Number(integrationHotels?.integrationSettings?.hotelCode);
+      const integrationhotelId = Number(integrationHotels?.integrationSettings?.hotelId);
 
-      IntegrationService.getAccommodations(integrationHotelCode, selectedIntegration.name, token)
+      IntegrationService.getAccommodations(integrationhotelId, selectedIntegration.name, token)
         .then((r) => {
           if (!r) {
             return;

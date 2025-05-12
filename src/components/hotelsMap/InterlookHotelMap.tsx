@@ -44,11 +44,11 @@ const InterlookHotelMap = ({
       // tempArr[index][name as keyof HotelInterlook] = value as never;
       if (!tempArr[index].integrationSettings) {
         tempArr[index].integrationSettings = {
-          hotelCode: value,
+          hotelId: value,
           apiName: selectedIntegration?.name || '', // Provide a default or appropriate value for apiName
         };
       }
-      tempArr[index].integrationSettings.hotelCode = value as never;
+      tempArr[index].integrationSettings.hotelId = value as never;
     }
 
     setHotelProps(tempArr);
@@ -69,7 +69,7 @@ const InterlookHotelMap = ({
     const result = await HotelService.edit(
       {
         integrationName: selectedIntegration.name,
-        integrationValue: Number(el.integrationSettings?.hotelCode),
+        integrationValue: Number(el.integrationSettings?.hotelId),
         hotelId: +el._id,
         // [selectedIntegration?.code]: +(el[selectedIntegration?.code as keyof HotelInterlook] || 0)
       },
@@ -115,7 +115,7 @@ const InterlookHotelMap = ({
                       <View direction="row" gap={2} align="center">
                         <FormControl.Label>integration code</FormControl.Label>
                         <TextField
-                          value={el.integrationSettings?.hotelCode || ''}
+                          value={el.integrationSettings?.hotelId || ''}
                           onChange={(e) => changeHandler(e, el)}
                           name={integrationCode as string}
                         />
@@ -125,7 +125,7 @@ const InterlookHotelMap = ({
                       variant="solid"
                       color="positive"
                       onClick={(e) => mapHandler(e, el)}
-                      disabled={!el.integrationSettings?.hotelCode}
+                      disabled={!el.integrationSettings?.hotelId}
                     >
                       map it
                     </Button>
@@ -136,7 +136,7 @@ const InterlookHotelMap = ({
                         setDeleteHotelMap(el);
                         activateDelete();
                       }}
-                      disabled={!el.integrationSettings?.hotelCode}
+                      disabled={!el.integrationSettings?.hotelId}
                     >
                       delete
                     </Button>

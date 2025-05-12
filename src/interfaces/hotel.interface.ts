@@ -33,7 +33,7 @@ export interface HotelInterlook {
   resortId: number;
   integrationSettings?: {
     apiName: string;
-    hotelCode: string;
+    hotelId: string;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     [key: string]: any;
   };
