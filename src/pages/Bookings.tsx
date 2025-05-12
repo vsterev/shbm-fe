@@ -54,11 +54,25 @@ const GetBookings = () => {
           token,
           selectedIntegration.name
         );
+
         if (Array.isArray(rs) && rs.length === 0) {
           toast.info(`No ${status} bookings`);
         }
+
+        if ('error' in rs) {
+          throw Error(rs.error as string);
+        }
+
         setBookings(rs);
+
         setArr(new Array(rs.length).fill(false));
+      } catch (error) {
+        if (error instanceof Error) {
+          toast.error(error.message);
+        } else {
+          toast.error('An unknown error occurred');
+        }
+        console.error(error);
       } finally {
         setLoading((prev) => ({ ...prev, [type]: false }));
       }
