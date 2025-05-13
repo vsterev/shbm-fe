@@ -1,4 +1,4 @@
-import { Button, Checkbox, Loader, Text, View } from 'reshaped';
+import { Button, Card, Checkbox, Loader, Text, View } from 'reshaped';
 import { Booking } from '../../interfaces/booking.interface';
 
 const BookingSection = ({
@@ -21,7 +21,7 @@ const BookingSection = ({
   isDisabled: boolean;
 }) => {
   return (
-    <View>
+    <Card selected={!(arr.every((el) => !el) || isDisabled)}>
       <Text variant="body-2">{title}</Text>
       <View gap={2}>
         {!!bookings.length && (
@@ -78,7 +78,7 @@ const BookingSection = ({
           '0 bookings'
         )}
       </View>
-    </View>
+    </Card>
   );
 };
 export default BookingSection;
