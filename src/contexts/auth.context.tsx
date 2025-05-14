@@ -3,6 +3,7 @@ import { createContext, PropsWithChildren, useContext, useEffect, useState } fro
 import { User } from '../interfaces/user.interface';
 import appCookie from '../utils/appCookie';
 import userService from '../services/user';
+import { Loader, View } from 'reshaped';
 
 interface AuthContextType {
   user: User | undefined;
@@ -25,11 +26,22 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
   useEffect(() => {
     const token = appCookie('hbs-token');
     if (token) {
+      setUser(() => undefined);
       userService.verify(token).then((r) => {
         setUser(r);
       });
     }
   }, []);
 
-  return <AuthContext.Provider value={{ user, setUser }}>{children}</AuthContext.Provider>;
+  return (
+    <>
+      {!user ? (
+        <View paddingTop={20} width="100%" align="center">
+          <Loader size="large" />
+        </View>
+      ) : (
+        <AuthContext.Provider value={{ user, setUser }}>{children}</AuthContext.Provider>
+      )}
+    </>
+  );
 };
