@@ -10,7 +10,7 @@ interface AuthContextType {
   setUser: React.Dispatch<React.SetStateAction<User | undefined>>;
 }
 
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
+const AuthContext = createContext<AuthContextType | undefined | null>(null);
 
 export const useAuthContext = () => {
   const context = useContext(AuthContext);
@@ -23,19 +23,17 @@ export const useAuthContext = () => {
 export const AuthProvider = ({ children }: PropsWithChildren) => {
   const [user, setUser] = useState<User | undefined>(undefined);
 
+  const token = appCookie('hbs-token');
   useEffect(() => {
-    const token = appCookie('hbs-token');
-    if (token) {
-      setUser(() => undefined);
-      userService.verify(token).then((r) => {
-        setUser(r);
-      });
-    }
-  }, []);
+    setUser(undefined);
+    userService.verify(token).then((r) => {
+      setUser(r);
+    });
+  }, [token]);
 
   return (
     <>
-      {!user ? (
+      {user === undefined ? (
         <View paddingTop={20} width="100%" align="center">
           <Loader size="large" />
         </View>
